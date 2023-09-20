@@ -25,15 +25,15 @@ public class Connect4PlayerServerProxy implements Runnable {
     public void run() {
         try {
             while (running) {
-                writer.writeString("0 | [PROTOCOL]: 1. Get Player ID ; 2. Get Player Name ; 3. Set PlayerSymbol ; 4. Get Player Symbol ; 5. Make Move ; 6. Receive Board State ; 7. Receive Opponents ; 8. Game Result ; (Tech.: 0. End Connection)");
+                writer.writeString("0 | [PROTOCOL]: 1. Get Player ID ; 2. Get Player Name ; 3. Set Player Char ; 4. Get Player Char ; 5. Make Move ; 6. Receive Board State ; 7. Receive Opponents ; 8. Game Result ; (Tech.: 0. End Connection)");
                 int option = reader.readInt();
 
                 switch (option) {
                     case 0 -> endConnection();
                     case 1 -> getPlayerId();
                     case 2 -> getPlayerName();
-                    case 3 -> setPlayerSymbol();
-                    case 4 -> getPlayerSymbol();
+                    case 3 -> setPlayerChar();
+                    case 4 -> getPlayerChar();
                     case 5 -> makeMove();
                     case 6 -> receiveBoardState();
                     case 7 -> receiveOpponents();
@@ -62,16 +62,16 @@ public class Connect4PlayerServerProxy implements Runnable {
         writer.writeString(connect4Player.getPlayerName());
     }
 
-    // Option 3 - Set Player Symbol
-    private void setPlayerSymbol() throws IOException {
-        writer.writeString("0 | [PROTOCOL]: Please provide the Player Symbol!");
+    // Option 3 - Set Player Char
+    private void setPlayerChar() throws IOException {
+        writer.writeString("0 | [PROTOCOL]: Please provide the Player Char!");
         char playerSymbol = reader.readChar();
-        connect4Player.setPlayerSymbol(playerSymbol);
+        connect4Player.setPlayerChar(playerSymbol);
     }
 
-    // Option 4 - Get Player Symbol
-    private void getPlayerSymbol() throws IOException {
-        writer.writeChar(connect4Player.getPlayerSymbol());
+    // Option 4 - Get Player Char
+    private void getPlayerChar() throws IOException {
+        writer.writeChar(connect4Player.getPlayerChar());
     }
 
     // Option 5 - Make Move

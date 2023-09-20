@@ -22,20 +22,20 @@ public interface IConnect4Player extends Serializable {
     String getPlayerName() throws IOException;
 
     /**
-     * Set the Symbol of the player ('X' or 'O' (, ...))
+     * Set the Char of the player ('X' or 'O' (, ...))
      *
-     * @param playerSymbol The player's Symbol
+     * @param playerChar The player's Char
      * @throws IOException if there is a network-related error.
      */
-    void setPlayerSymbol(char playerSymbol) throws IOException;
+    void setPlayerChar(char playerChar) throws IOException;
 
     /**
-     * Get the Symbol of the player ('X' or 'O' (, ...))
+     * Get the Char of the player ('X' or 'O' (, ...))
      *
-     * @return playerSymbol The player's Symbol
+     * @return playerChar The player's Char
      * @throws IOException if there is a network-related error.
      */
-    char getPlayerSymbol() throws IOException;
+    char getPlayerChar() throws IOException;
 
     /**
      * Notify the player that it's their turn to make a move.

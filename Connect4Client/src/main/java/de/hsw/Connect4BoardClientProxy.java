@@ -77,11 +77,18 @@ public class Connect4BoardClientProxy implements IConnect4Board {
         return reader.readChar();
     }
 
-    // Option 7 - Reset Board
-    @Override
-    public void resetBoard(IConnect4Player playingConnect4Player) throws IOException {
+    // Option 7 - Get Winning Pieces
+    public int[][] getWinningPieces() throws IOException, ClassNotFoundException {
         selectOption(7);
+        return (int[][]) reader.readObject();
+    }
+
+    // Option 8 - Reset Board
+    @Override
+    public boolean resetBoard(IConnect4Player playingConnect4Player) throws IOException {
+        selectOption(8);
         sendConnect4Player(playingConnect4Player);
+        return reader.readBoolean();
     }
 
     private void sendConnect4Player(IConnect4Player playingConnect4Player) throws IOException {
@@ -107,7 +114,7 @@ public class Connect4BoardClientProxy implements IConnect4Board {
     }
 
     private void selectOption(int option) throws IOException {
-        reader.readString(); // 0 | [PROTOCOL]: 1. Join Game ; 2. Leave Game ; 3. Get Board State ; 4. Make Move ; 5. Is Game Over ; 6. Get Winner ; 7. Reset Board ; (Tech.: 0. End Connection)
+        reader.readString(); // 0 | [PROTOCOL]: 1. Join Game ; 2. Leave Game ; 3. Get Board State ; 4. Make Move ; 5. Is Game Over ; 6. Get Winner ; 7. Get Winning Pieces ; 8. Reset Board ; (Tech.: 0. End Connection)
         writer.writeInt(option);
     }
 }

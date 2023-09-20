@@ -59,9 +59,18 @@ public interface IConnect4Board {
     char getWinner() throws IOException;
 
     /**
-     * Reset the Connect 4 board to its initial state.
+     * Get the winning pieces of the game.
      *
+     * @return The List of the winning pieces and it's positions.
      * @throws IOException if there is a network-related error.
      */
-    void resetBoard(IConnect4Player playingConnect4Player) throws IOException;
+    int[][] getWinningPieces() throws IOException, ClassNotFoundException;
+
+    /**
+     * Reset the Connect 4 board to its initial state.
+     *
+     * @return True if the board reset was successful, false otherwise
+     * @throws IOException if there is a network-related error.
+     */
+    boolean resetBoard(IConnect4Player playingConnect4Player) throws IOException;
 }

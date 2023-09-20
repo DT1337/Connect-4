@@ -36,17 +36,17 @@ public class Connect4PlayerClientProxy implements IConnect4Player {
         return reader.readString();
     }
 
-    // Option 3 - Set Player Symbol
+    // Option 3 - Set Player Char
     @Override
-    public void setPlayerSymbol(char playerSymbol) throws IOException {
+    public void setPlayerChar(char playerSymbol) throws IOException {
         selectOption(3);
-        reader.readString(); // 0 | [PROTOCOL]: Please provide the Player Symbol!
+        reader.readString(); // 0 | [PROTOCOL]: Please provide the Player Char!
         writer.writeChar(playerSymbol);
     }
 
-    // Option 4 - Get Player Symbol
+    // Option 4 - Get Player Char
     @Override
-    public char getPlayerSymbol() throws IOException {
+    public char getPlayerChar() throws IOException {
         selectOption(4);
         return reader.readChar();
     }
@@ -82,7 +82,7 @@ public class Connect4PlayerClientProxy implements IConnect4Player {
     }
 
     private void selectOption(int option) throws IOException {
-        reader.readString(); // 0 | [PROTOCOL]: 1. Get Player ID ; 2. Get Player Name ; 3. Set PlayerSymbol ; 4. Get Player Symbol ; 5. Make Move ; 6. Receive Board State ; 7. Receive Opponents ; 8. Game Result ; (Tech.: 0. End Connection)
+        reader.readString(); // 0 | [PROTOCOL]: 1. Get Player ID ; 2. Get Player Name ; 3. Set Player Char ; 4. Get Player Char ; 5. Make Move ; 6. Receive Board State ; 7. Receive Opponents ; 8. Game Result ; (Tech.: 0. End Connection)
         writer.writeInt(option);
     }
 }

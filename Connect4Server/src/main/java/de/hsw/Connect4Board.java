@@ -8,7 +8,7 @@ public class Connect4Board implements IConnect4Board {
 
     private final IConnect4Player[] connect4Players;
     private final String[] opponents;
-    private final Stack<Character> availablePlayerSymbols = new Stack<>();
+    private final Stack<Character> availablePlayerChars = new Stack<>();
     private int currentPlayerIndex = 0;
 
     private final char[][] connect4Board;
@@ -45,10 +45,10 @@ public class Connect4Board implements IConnect4Board {
         Arrays.fill(opponents, "[]");
 
         if (playerCount == 2) {
-            availablePlayerSymbols.addAll(Arrays.asList('O', 'X'));
+            availablePlayerChars.addAll(Arrays.asList('O', 'X'));
         } else {
             for (int i = 0; i < playerCount; i++) {
-                availablePlayerSymbols.add((char) (96 + i));
+                availablePlayerChars.add((char) (96 + i));
             }
         }
     }
@@ -68,7 +68,7 @@ public class Connect4Board implements IConnect4Board {
                 String playerName = joiningConnect4Player.getPlayerName();
                 opponents[i] = playerName == null ? "[]" : playerName;
 
-                joiningConnect4Player.setPlayerSymbol(getAvailablePlayerSymbol());
+                joiningConnect4Player.setPlayerChar(getAvailablePlayerChars());
 
                 updateClientOpponents();
                 updateClientBoards();
@@ -85,7 +85,7 @@ public class Connect4Board implements IConnect4Board {
             if (connect4Players[i] == leavingConnect4Player) {
                 connect4Players[i] = null;
                 opponents[i] = "[]";
-                availablePlayerSymbols.add(leavingConnect4Player.getPlayerSymbol());
+                availablePlayerChars.add(leavingConnect4Player.getPlayerChar());
 
                 updateClientOpponents();
                 updateClientBoards();
@@ -104,6 +104,12 @@ public class Connect4Board implements IConnect4Board {
 
     @Override
     public boolean makeMove(int column, IConnect4Player playingConnect4Player) throws IOException {
+        // check whether the game is over and if so notify the players
+        if (isGameOver()) {
+            sendPlayersGameResult();
+            return false;
+        }
+
         // check if de.hsw.IConnect4Player is a joined the game
         if (!Arrays.asList(connect4Players).contains(playingConnect4Player)) {
             return false;
@@ -121,12 +127,12 @@ public class Connect4Board implements IConnect4Board {
         }
 
         // make move and update board
-        connect4Board[row][column] = playingConnect4Player.getPlayerSymbol();
+        connect4Board[row][column] = playingConnect4Player.getPlayerChar();
         updateClientBoards();
 
         // check whether the game is over and if so notify the players
         if (isGameOver()) {
-            playingConnect4Player.gameResult(getWinner());
+            sendPlayersGameResult();
             return false;
         }
 
@@ -199,13 +205,24 @@ public class Connect4Board implements IConnect4Board {
 
     @Override
     public char getWinner() {
+        int[][] winningPieces = getWinningPieces();
+        // If no winner is found, return '-' (empty space) to indicate no winner yet
+        if (winningPieces == null) {
+            return '-';
+        }
+
+        return connect4Board[winningPieces[0][0]][winningPieces[0][1]];
+    }
+
+    @Override
+    public int[][] getWinningPieces() {
         // Check for horizontal win
         for (int row = 0; row < rows; row++) {
             for (int col = 0; col < cols - 3; col++) {
                 char current = connect4Board[row][col];
                 if (current != '-' && current == connect4Board[row][col + 1] &&
                         current == connect4Board[row][col + 2] && current == connect4Board[row][col + 3]) {
-                    return current;
+                    return new int[][]{{row, col}, {row, col + 1}, {row, col + 2}, {row, col + 3}};
                 }
             }
         }
@@ -216,7 +233,7 @@ public class Connect4Board implements IConnect4Board {
                 char current = connect4Board[row][col];
                 if (current != '-' && current == connect4Board[row + 1][col] &&
                         current == connect4Board[row + 2][col] && current == connect4Board[row + 3][col]) {
-                    return current;
+                    return new int[][]{{row, col}, {row + 1, col}, {row + 2, col}, {row + 3, col}};
                 }
             }
         }
@@ -227,7 +244,7 @@ public class Connect4Board implements IConnect4Board {
                 char current = connect4Board[row][col];
                 if (current != '-' && current == connect4Board[row + 1][col + 1] &&
                         current == connect4Board[row + 2][col + 2] && current == connect4Board[row + 3][col + 3]) {
-                    return current;
+                    return new int[][]{{row, col}, {row + 1, col + 1}, {row + 2, col + 2}, {row + 3, col + 3}};
                 }
             }
         }
@@ -238,22 +255,22 @@ public class Connect4Board implements IConnect4Board {
                 char current = connect4Board[row][col];
                 if (current != '-' && current == connect4Board[row + 1][col - 1] &&
                         current == connect4Board[row + 2][col - 2] && current == connect4Board[row + 3][col - 3]) {
-                    return current;
+                    return new int[][]{{row, col}, {row + 1, col - 1}, {row + 2, col - 2}, {row + 3, col - 3}};
                 }
             }
         }
 
-        // If no winner is found, return '-' (space) to indicate no winner yet
-        return '-';
+        // If no winner is found, return null to indicate no winner yet
+        return null;
     }
 
     @Override
-    public void resetBoard(IConnect4Player playingConnect4Player) throws IOException {
+    public boolean resetBoard(IConnect4Player playingConnect4Player) throws IOException {
         if (!Arrays.asList(connect4Players).contains(playingConnect4Player)) {
-            return;
+            return false;
         }
 
-        // Replace all values in the de.hsw.Connect4Board with '-' (empty)
+        // Replace all values in the connect4Board with '-' (empty)
         for (char[] chars : connect4Board) {
             Arrays.fill(chars, '-');
         }
@@ -262,6 +279,8 @@ public class Connect4Board implements IConnect4Board {
         currentPlayerIndex = 0;
 
         updateClientBoards();
+
+        return true;
     }
 
     private int getAvailableRow(int column) {
@@ -292,7 +311,15 @@ public class Connect4Board implements IConnect4Board {
         }
     }
 
-    private char getAvailablePlayerSymbol() {
-        return availablePlayerSymbols.pop();
+    private void sendPlayersGameResult() throws IOException {
+        for (IConnect4Player connect4Player : connect4Players) {
+            if (connect4Player != null) {
+                connect4Player.gameResult(getWinner());
+            }
+        }
+    }
+
+    private char getAvailablePlayerChars() {
+        return availablePlayerChars.pop();
     }
 }

@@ -1,0 +1,109 @@
+/* StackPane style */
+.stack-pane {
+    -fx-background-color: #AAAAAA;
+}
+
+/* HBox style */
+.h-box {
+    -fx-alignment: CENTER;
+    -fx-pref-height: 70.0;
+    -fx-pref-width: 1000.0;
+    -fx-bottom-anchor: -20.0;
+    -fx-left-anchor: 0.0;
+    -fx-right-anchor: 0.0;
+    -fx-top-anchor: 0.0;
+}
+
+/* Label styles */
+.label-player-1 {
+    -fx-alignment: CENTER;
+    -fx-pref-height: 17.0;
+    -fx-pref-width: 250.0;
+    -fx-text: "Player 1";
+    -fx-font-weight: bold;
+    -fx-text-fill: #CC3E36;
+    -fx-font-size: 20.0;
+    -fx-font-name: "System Bold";
+}
+
+.label-status {
+    -fx-alignment: CENTER;
+    -fx-pref-height: 50.0;
+    -fx-pref-width: 500.0;
+    -fx-font-size: 25.0;
+}
+
+.label-player-2 {
+    -fx-alignment: CENTER;
+    -fx-pref-height: 17.0;
+    -fx-pref-width: 250.0;
+    -fx-text: "Player 2";
+    -fx-font-weight: bold;
+    -fx-text-fill: #E6CC00;
+    -fx-text-alignment: RIGHT;
+    -fx-font-size: 20.0;
+    -fx-font-name: "System Bold";
+}
+
+.connect4BoardContainer {
+    -fx-alignment: CENTER;
+    -fx-pref-height: 700.0;
+    -fx-pref-width: 1000.0;
+    -fx-bottom-anchor: -20.0;
+    -fx-left-anchor: 0.0;
+    -fx-right-anchor: 0.0;
+    -fx-top-anchor: 0.0;
+}
+
+/* GridPane style */
+.grid-pane {
+    -fx-layout-x: 64.0;
+    -fx-layout-y: 57.0;
+    -fx-pref-height: 657.0;
+    -fx-pref-width: 872.0;
+    -fx-background-color: #606060;
+    -fx-padding: 20px;
+    -fx-background-radius: 2%;
+    -fx-bottom-anchor: 20.0;
+    -fx-left-anchor: 80.0;
+    -fx-right-anchor: 80.0;
+    -fx-top-anchor: 50.0;
+}
+
+/* Reset Button */
+.reset-button {
+    -fx-background-color: #505050;
+    -fx-border-width: 2px;
+    -fx-border-style: solid;
+    -fx-border-color: #BA0001;
+    -fx-border-radius: 3px;
+    -fx-text-fill: #BA0001;
+    -fx-font-weight: bold;
+    -fx-font-size: 15.0;
+}
+
+/* Button */
+.connect4-button {
+    -fx-background-color: transparent;
+    -fx-background-radius: 50%;
+    -fx-border-color: #CCCCCC;
+    -fx-border-radius: 50%;
+    -fx-border-weight: solid;
+    -fx-border-width: 10px;
+}
+
+.red {
+    -fx-background-color: #B40001;
+    -fx-border-color: #CC3E36;
+    -fx-border-width: 20px;
+}
+
+.yellow {
+    -fx-background-color: #E6B400;
+    -fx-border-color: #E6CC00;
+    -fx-border-width: 20px;
+}
+
+.winningPiece {
+    -fx-background-color: #228B22;
+}

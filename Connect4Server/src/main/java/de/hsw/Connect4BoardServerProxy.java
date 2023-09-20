@@ -28,7 +28,7 @@ public class Connect4BoardServerProxy implements Runnable {
     public void run() {
         try {
             while (running) {
-                writer.writeString("0 | [PROTOCOL]: 1. Join Game ; 2. Leave Game ; 3. Get Board State ; 4. Make Move ; 5. Is Game Over ; 6. Get Winner ; 7. Reset Board ; (Tech.: 0. End Connection)");
+                writer.writeString("0 | [PROTOCOL]: 1. Join Game ; 2. Leave Game ; 3. Get Board State ; 4. Make Move ; 5. Is Game Over ; 6. Get Winner ; 7. Get Winning Pieces ; 8. Reset Board ; (Tech.: 0. End Connection)");
                 int option = reader.readInt();
 
                 switch (option) {
@@ -39,7 +39,8 @@ public class Connect4BoardServerProxy implements Runnable {
                     case 4 -> makeMove();
                     case 5 -> isGameOver();
                     case 6 -> getWinner();
-                    case 7 -> resetBoard();
+                    case 7 -> getWinningPieces();
+                    case 8 -> resetBoard();
                     default -> writer.writeString("99 | [PROTOCOL ERROR]: Invalid Option :" + option);
                 }
             }
@@ -89,9 +90,14 @@ public class Connect4BoardServerProxy implements Runnable {
         writer.writeChar(connect4Board.getWinner());
     }
 
-    // Option 7 - ResetBoard
+    // Option 7 - Get Winning Pieces
+    private void getWinningPieces() throws IOException {
+        writer.writeObject(connect4Board.getWinningPieces());
+    }
+
+    // Option 8 - ResetBoard
     private void resetBoard() throws IOException {
-        connect4Board.resetBoard(getConnect4Player());
+        writer.writeBoolean(connect4Board.resetBoard(getConnect4Player()));
     }
 
     private IConnect4Player getConnect4Player() throws IOException {

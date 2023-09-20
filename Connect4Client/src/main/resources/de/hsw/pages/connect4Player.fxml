@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.BorderPane?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.text.Font?>
+
+<StackPane fx:id="root" prefHeight="800.0" prefWidth="1000.0" styleClass="stack-pane" stylesheets="@../styles/connect4-board-styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hsw.Connect4PlayerUIController">
+    <BorderPane>
+        <top>
+            <AnchorPane BorderPane.alignment="CENTER">
+                <HBox styleClass="h-box">
+                    <Label fx:id="player1Label" styleClass="label-player-1" text="">
+                        <font>
+                            <Font name="System Bold" size="20.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="statusLabel" styleClass="label-status" text="">
+                        <font>
+                            <Font size="25.0" />
+                        </font>
+                    </Label>
+                    <Label fx:id="player2Label" styleClass="label-player-2" text="" textAlignment="RIGHT">
+                        <font>
+                            <Font name="System Bold" size="20.0" />
+                        </font>
+                    </Label>
+                </HBox>
+            </AnchorPane>
+        </top>
+        <center>
+            <AnchorPane BorderPane.alignment="CENTER">
+                <HBox styleClass="connect4BoardContainer">
+                    <GridPane fx:id="connect4Board" styleClass="grid-pane">
+                    </GridPane>
+                </HBox>
+            </AnchorPane>
+        </center>
+        <bottom>
+
+        </bottom>
+      <bottom>
+         <AnchorPane prefHeight="30.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
+            <children>
+               <Button fx:id="resetButton" mnemonicParsing="false" onAction="#onResetButtonPressed" styleClass="reset-button" text="RESET" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="5.0" />
+            </children>
+         </AnchorPane>
+      </bottom>
+    </BorderPane>
+</StackPane>

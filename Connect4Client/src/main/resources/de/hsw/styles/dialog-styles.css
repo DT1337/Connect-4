@@ -1,0 +1,29 @@
+/* Customize the dialog title */
+.dialog-pane .alert-header {
+    -fx-font-size: 18px;
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+/* Customize the dialog content */
+.dialog-pane .alert-content {
+    -fx-font-size: 14px;
+}
+
+/* Customize the input field */
+.dialog-pane .text-input {
+    -fx-font-size: 14px;
+    -fx-pref-width: 250px;
+}
+
+/* Customize the buttons */
+.dialog-pane .button-bar .button {
+    -fx-font-size: 14px;
+    -fx-background-color: #4CAF50;
+    -fx-text-fill: white;
+}
+
+/* Customize the button when hovered */
+.dialog-pane .button-bar .button:hover {
+    -fx-background-color: #45A049;
+}
