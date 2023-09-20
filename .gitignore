@@ -1,0 +1,7 @@
+# Project exclude paths
+/Connect4Client/target/
+/Connect4Server/target/
+/target
+/out/
+/.idea
+*.iml
