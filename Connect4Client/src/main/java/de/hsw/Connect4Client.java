@@ -7,7 +7,6 @@ import javafx.scene.Scene;
 import javafx.stage.Stage;
 
 import java.io.IOException;
-import java.net.Socket;
 
 public class Connect4Client extends Application {
 
@@ -21,6 +20,7 @@ public class Connect4Client extends Application {
 
             Connect4PlayerUIController connect4PlayerUIController = loader.getController();
             connect4PlayerUIController.setStage(stage);
+            connect4PlayerUIController.initializeConnect4Game();
 
             Scene scene = new Scene(root);
             stage.setScene(scene);
