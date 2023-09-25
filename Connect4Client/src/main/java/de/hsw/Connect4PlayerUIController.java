@@ -165,8 +165,8 @@ public class Connect4PlayerUIController {
         for (int row = 0; row < numRows; row++) {
             for (int col = 0; col < numCols; col++) {
                 Button button = createBoardButton();
-                buttons[row][col] = button;
                 connect4Board.add(button, col, row);
+                buttons[row][col] = button;
             }
         }
 
@@ -177,7 +177,7 @@ public class Connect4PlayerUIController {
 
     private Button createBoardButton() {
         Button button = new Button();
-        button.setPrefSize(600 / buttons.length, 600 / buttons.length);
+        button.setPrefSize(12.0 * buttons.length, 12.0 * buttons.length);
         button.getStyleClass().add("connect4-button");
         button.setOnAction(event -> onConnect4BoardButtonPressed(button));
         GridPane.setHalignment(button, HPos.CENTER);
@@ -189,8 +189,6 @@ public class Connect4PlayerUIController {
             ColumnConstraints column = new ColumnConstraints();
             column.setHalignment(HPos.CENTER);
             column.setHgrow(javafx.scene.layout.Priority.SOMETIMES);
-            column.setMinWidth(10);
-            column.setPrefWidth(100);
             connect4Board.getColumnConstraints().add(column);
         }
     }
@@ -200,8 +198,6 @@ public class Connect4PlayerUIController {
             RowConstraints rowConstraint = new RowConstraints();
             rowConstraint.setValignment(javafx.geometry.VPos.CENTER);
             rowConstraint.setVgrow(javafx.scene.layout.Priority.SOMETIMES);
-            rowConstraint.setMinHeight(10);
-            rowConstraint.setPrefHeight(30);
             connect4Board.getRowConstraints().add(rowConstraint);
         }
     }

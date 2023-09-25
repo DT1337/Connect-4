@@ -15,8 +15,6 @@ public class Connect4BoardServerProxy implements Runnable {
 
     private final Hashtable<Integer, IConnect4Player> connect4Players = new Hashtable<>();
 
-    private boolean running = true;
-
     public Connect4BoardServerProxy(Socket socket, IConnect4Board connect4Board) throws IOException {
         this.socket = socket;
         this.connect4Board = connect4Board;
@@ -27,7 +25,7 @@ public class Connect4BoardServerProxy implements Runnable {
     @Override
     public void run() {
         try {
-            while (running) {
+            while (socket.isConnected()) {
                 writer.writeString("0 | [PROTOCOL]: 1. Join Game ; 2. Leave Game ; 3. Get Board State ; 4. Make Move ; 5. Is Game Over ; 6. Get Winner ; 7. Get Winning Pieces ; 8. Reset Board ; (Tech.: 0. End Connection)");
                 int option = reader.readInt();
 
@@ -51,7 +49,6 @@ public class Connect4BoardServerProxy implements Runnable {
 
     // Option 0 - End Connection
     private void endConnection() throws IOException {
-        running = false;
         socket.close();
     }
 

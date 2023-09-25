@@ -10,14 +10,12 @@ import java.util.Hashtable;
 
 public class Connect4BoardClientProxy implements IConnect4Board {
 
-    private final Socket socket;
     private final RpcReader reader;
     private final RpcWriter writer;
 
     private final Hashtable<IConnect4Player, Integer> connect4Players = new Hashtable<>();
 
     public Connect4BoardClientProxy(Socket socket) throws IOException {
-        this.socket = socket;
         reader = new RpcReader(new InputStreamReader(socket.getInputStream()));
         writer = new RpcWriter(new OutputStreamWriter(socket.getOutputStream()));
     }

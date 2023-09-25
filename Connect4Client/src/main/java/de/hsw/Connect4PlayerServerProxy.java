@@ -12,8 +12,6 @@ public class Connect4PlayerServerProxy implements Runnable {
     private final RpcReader reader;
     private final RpcWriter writer;
 
-    private boolean running = true;
-
     public Connect4PlayerServerProxy(Socket socket, IConnect4Player connect4Player) throws IOException {
         this.socket = socket;
         this.connect4Player = connect4Player;
@@ -24,7 +22,7 @@ public class Connect4PlayerServerProxy implements Runnable {
     @Override
     public void run() {
         try {
-            while (running) {
+            while (socket.isConnected()) {
                 writer.writeString("0 | [PROTOCOL]: 1. Get Player ID ; 2. Get Player Name ; 3. Set Player Char ; 4. Get Player Char ; 5. Make Move ; 6. Receive Board State ; 7. Receive Opponents ; 8. Game Result ; (Tech.: 0. End Connection)");
                 int option = reader.readInt();
 
@@ -48,7 +46,6 @@ public class Connect4PlayerServerProxy implements Runnable {
 
     // Option 0 - End Connection
     private void endConnection() throws IOException {
-        running = false;
         socket.close();
     }
 

@@ -6,8 +6,6 @@ public class Connect4Player implements IConnect4Player {
     private final String playerName;
     private final int playerId;
     private char playerChar;
-    private char[][] boardState;
-    private String[] opponents;
 
     public Connect4Player(Connect4PlayerUIController connect4PlayerUIController, String name) {
         this.connect4PlayerUIController = connect4PlayerUIController;
@@ -42,13 +40,11 @@ public class Connect4Player implements IConnect4Player {
 
     @Override
     public void receiveBoardState(char[][] boardState) {
-        this.boardState = boardState;
         connect4PlayerUIController.updateBoardState(boardState);
     }
 
     @Override
     public void receiveOpponents(String[] opponents) {
-        this.opponents = opponents;
         connect4PlayerUIController.updateOpponents(opponents);
     }
 

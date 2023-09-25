@@ -7,12 +7,10 @@ import java.net.Socket;
 
 public class Connect4PlayerClientProxy implements IConnect4Player {
 
-    private final Socket socket;
     private final RpcReader reader;
     private final RpcWriter writer;
 
     public Connect4PlayerClientProxy(Socket socket) throws IOException {
-        this.socket = socket;
         reader = new RpcReader(new InputStreamReader(socket.getInputStream()));
         writer = new RpcWriter(new OutputStreamWriter(socket.getOutputStream()));
     }

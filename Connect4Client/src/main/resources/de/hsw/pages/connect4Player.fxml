@@ -7,47 +7,28 @@
 <?import javafx.scene.layout.GridPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
-<?import javafx.scene.text.Font?>
 
-<StackPane prefHeight="800.0" prefWidth="1000.0" styleClass="stack-pane" stylesheets="@../styles/connect4-board-styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hsw.Connect4PlayerUIController">
+<StackPane prefHeight="650.0" prefWidth="900.0" styleClass="stack-pane" stylesheets="@../styles/connect4-board-styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hsw.Connect4PlayerUIController">
     <BorderPane>
         <top>
-            <AnchorPane BorderPane.alignment="CENTER">
-                <HBox styleClass="h-box">
-                    <Label fx:id="player1Label" styleClass="label-player-1">
-                        <font>
-                            <Font name="System Bold" size="20.0" />
-                        </font>
-                    </Label>
-                    <Label fx:id="statusLabel" styleClass="label-status">
-                        <font>
-                            <Font size="25.0" />
-                        </font>
-                    </Label>
-                    <Label fx:id="player2Label" styleClass="label-player-2" textAlignment="RIGHT">
-                        <font>
-                            <Font name="System Bold" size="20.0" />
-                        </font>
-                    </Label>
+            <AnchorPane prefHeight="50.0" BorderPane.alignment="CENTER">
+                <HBox alignment="CENTER_LEFT" spacing="10.0" styleClass="h-box" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="10.0">
+                    <Label fx:id="player1Label" prefHeight="30.0" prefWidth="220.0" styleClass="label-player-1" text="Player 1" HBox.hgrow="ALWAYS" />
+                    <Label fx:id="statusLabel" alignment="CENTER" prefHeight="36.0" prefWidth="300.0" styleClass="label-status" text="Welcome to Connect 4" HBox.hgrow="NEVER" />
+                    <Label fx:id="player2Label" alignment="CENTER_RIGHT" prefHeight="30.0" prefWidth="220.0" styleClass="label-player-2" text="Player 2" textAlignment="RIGHT" HBox.hgrow="ALWAYS" />
                 </HBox>
             </AnchorPane>
         </top>
         <center>
             <AnchorPane BorderPane.alignment="CENTER">
-                <HBox styleClass="connect4BoardContainer">
-                    <GridPane fx:id="connect4Board" styleClass="grid-pane">
-                    </GridPane>
-                </HBox>
+                <GridPane fx:id="connect4Board" alignment="CENTER" styleClass="grid-pane" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="10.0" />
             </AnchorPane>
         </center>
         <bottom>
-
         </bottom>
       <bottom>
-          <AnchorPane prefHeight="30.0" prefWidth="1000.0" BorderPane.alignment="CENTER">
-              <Button mnemonicParsing="false" onAction="#onResetButtonPressed"
-                      styleClass="reset-button" text="RESET" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="70.0"
-                      AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="5.0"/>
+          <AnchorPane BorderPane.alignment="CENTER">
+              <Button mnemonicParsing="false" onAction="#onResetButtonPressed" styleClass="reset-button" text="RESET" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="5.0" />
           </AnchorPane>
       </bottom>
     </BorderPane>
