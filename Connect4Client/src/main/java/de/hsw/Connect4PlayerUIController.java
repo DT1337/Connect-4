@@ -338,6 +338,8 @@ public class Connect4PlayerUIController {
     private void makeMoveAndUpdateStatus(int col) throws IOException {
         if (!connect4BoardClientProxy.makeMove(col, connect4Player) && !connect4BoardClientProxy.isGameOver()) {
             setStatusLabel("It's not your turn!");
+        } else {
+            setStatusLabel("");
         }
     }
 
