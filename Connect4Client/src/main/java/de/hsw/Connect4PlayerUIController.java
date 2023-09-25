@@ -4,6 +4,7 @@ import javafx.application.Platform;
 import javafx.fxml.FXML;
 import javafx.geometry.HPos;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
 import javafx.scene.layout.ColumnConstraints;
 import javafx.scene.layout.GridPane;
 import javafx.scene.layout.RowConstraints;
@@ -12,6 +13,7 @@ import javafx.util.Pair;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.Objects;
 
 public class Connect4PlayerUIController {
 
@@ -48,6 +50,9 @@ public class Connect4PlayerUIController {
             Dialog<Pair<String, Integer>> dialog = new Dialog<>();
             dialog.setTitle("Connect 4 - Server Connection");
             dialog.setHeaderText("Please enter the IP address and Port");
+
+            Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            dialogStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/connect4.png"))));
 
             GridPane grid = new GridPane();
             grid.setHgap(10);
@@ -111,6 +116,9 @@ public class Connect4PlayerUIController {
             Dialog<String> dialog = new Dialog<>();
             dialog.setTitle("Connect 4 - Player Name");
             dialog.setHeaderText("Please enter your Player Name");
+
+            Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+            dialogStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/connect4.png"))));
 
             GridPane grid = new GridPane();
             grid.setHgap(10);
