@@ -10,7 +10,6 @@
 /* Label styles */
 .label-player-1 {
     -fx-font-weight: bold;
-    -fx-text-fill: #CC3E36;
     -fx-font-size: 20.0;
     -fx-font-name: "System Bold";
 }
@@ -22,7 +21,6 @@
 
 .label-player-2 {
     -fx-font-weight: bold;
-    -fx-text-fill: #E6CC00;
     -fx-text-alignment: RIGHT;
     -fx-font-size: 20.0;
     -fx-font-name: "System Bold";
@@ -59,10 +57,18 @@
     -fx-border-width: 12px;
 }
 
+.red-player-name {
+    -fx-text-fill: #CC3E36;
+}
+
 .yellow {
     -fx-background-color: #E6B400;
     -fx-border-color: #E6CC00;
     -fx-border-width: 12px;
+}
+
+.yellow-player-name {
+    -fx-text-fill: #E6CC00;
 }
 
 .blue {
@@ -71,10 +77,18 @@
     -fx-border-width: 12px;
 }
 
+.blue-player-name {
+    -fx-text-fill: #0066FF;
+}
+
 .green {
     -fx-background-color: #339933;
     -fx-border-color: #00CC00;
     -fx-border-width: 12px;
+}
+
+.green-player-name {
+    -fx-text-fill: #00CC00;
 }
 
 .orange {
@@ -83,10 +97,18 @@
     -fx-border-width: 12px;
 }
 
+.orange-player-name {
+    -fx-text-fill: #FF9900;
+}
+
 .purple {
     -fx-background-color: #660066;
     -fx-border-color: #9900CC;
     -fx-border-width: 12px;
+}
+
+.orange-player-name {
+    -fx-text-fill: #9900CC;
 }
 
 .cyan {
@@ -95,10 +117,18 @@
     -fx-border-width: 12px;
 }
 
+.orange-player-name {
+    -fx-text-fill: #66CCFF;
+}
+
 .pink {
     -fx-background-color: #FF33CC;
     -fx-border-color: #FF66CC;
     -fx-border-width: 12px;
+}
+
+.orange-player-name {
+    -fx-text-fill: #FF66CC;
 }
 
 .winningPiece {
