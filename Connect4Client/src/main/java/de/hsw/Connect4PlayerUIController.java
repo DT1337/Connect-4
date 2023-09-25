@@ -250,6 +250,10 @@ public class Connect4PlayerUIController {
 
     public void setWinner(char winnerChar) {
         Platform.runLater(() -> {
+            if (winnerChar == '-') {
+                statusLabel.setText("It's a tie!");
+                return;
+            }
             statusLabel.setText(connect4Player.getPlayerChar() == winnerChar ? "You won!" : "Your opponent won!");
 
             int[][] winningPieces;
