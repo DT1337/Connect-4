@@ -287,22 +287,31 @@ public class Connect4PlayerUIController {
     public void setWinner(char winnerChar) {
         Platform.runLater(() -> {
             if (winnerChar == '-') {
-                statusLabel.setText("It's a tie!");
+                setStatusLabel("It's a tie!");
                 return;
             }
-            statusLabel.setText(connect4Player.getPlayerChar() == winnerChar ? "You won!" : "Your opponent won!");
 
-            int[][] winningPieces;
             try {
+                setWinningLabel();
+
+                int[][] winningPieces;
                 winningPieces = connect4BoardClientProxy.getWinningPieces();
+
+                for (int[] piece : winningPieces) {
+                    buttons[piece[0]][piece[1]].getStyleClass().add("winningPiece");
+                }
             } catch (IOException | ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
-
-            for (int[] piece : winningPieces) {
-                buttons[piece[0]][piece[1]].getStyleClass().add("winningPiece");
-            }
         });
+    }
+
+    private void setWinningLabel() throws IOException {
+        if (opponents.length == 2) {
+            setStatusLabel(connect4Player.getPlayerChar() == connect4BoardClientProxy.getWinner() ? "You won!" : player2Label.getText() + " won!");
+        } else {
+            setStatusLabel(connect4Player.getPlayerChar() == connect4BoardClientProxy.getWinner() ? "You won!" : "Your opponent won!");
+        }
     }
 
     @FXML
@@ -338,6 +347,8 @@ public class Connect4PlayerUIController {
     private void makeMoveAndUpdateStatus(int col) throws IOException {
         if (!connect4BoardClientProxy.makeMove(col, connect4Player) && !connect4BoardClientProxy.isGameOver()) {
             setStatusLabel("It's not your turn!");
+        } else if (connect4BoardClientProxy.isGameOver()) {
+            setWinningLabel();
         } else {
             setStatusLabel("");
         }
@@ -358,7 +369,7 @@ public class Connect4PlayerUIController {
     private void handleConnectionError(Throwable throwable) {
         throwable.printStackTrace();
         String errorMessage = "An error occurred: " + throwable.getMessage();
-        Platform.runLater(() -> statusLabel.setText(errorMessage));
+        Platform.runLater(() -> setStatusLabel(errorMessage));
         System.err.println(errorMessage);
     }
 
