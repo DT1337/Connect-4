@@ -263,8 +263,16 @@ public class Connect4PlayerUIController {
             player2Label.setText(String.join(" ; ", opponentsList));
 
             if (opponents.length == 2) {
-                player1Label.getStyleClass().add("red-player-name");
-                player2Label.getStyleClass().add("yellow-player-name");
+                switch (connect4Player.getPlayerChar()) {
+                    case 'X' -> {
+                        player1Label.getStyleClass().add("red-player-name");
+                        player2Label.getStyleClass().add("yellow-player-name");
+                    }
+                    case 'O' -> {
+                        player1Label.getStyleClass().add("yellow-player-name");
+                        player2Label.getStyleClass().add("red-player-name");
+                    }
+                }
             } else {
                 switch (connect4Player.getPlayerChar()) {
                     case 'A' -> player1Label.getStyleClass().add("pink-player-name");
