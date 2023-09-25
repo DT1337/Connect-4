@@ -65,6 +65,42 @@
     -fx-border-width: 12px;
 }
 
+.blue {
+    -fx-background-color: #000099;
+    -fx-border-color: #0066FF;
+    -fx-border-width: 12px;
+}
+
+.green {
+    -fx-background-color: #339933;
+    -fx-border-color: #00CC00;
+    -fx-border-width: 12px;
+}
+
+.orange {
+    -fx-background-color: #CC6600;
+    -fx-border-color: #FF9900;
+    -fx-border-width: 12px;
+}
+
+.purple {
+    -fx-background-color: #660066;
+    -fx-border-color: #9900CC;
+    -fx-border-width: 12px;
+}
+
+.cyan {
+    -fx-background-color: #3399FF;
+    -fx-border-color: #66CCFF;
+    -fx-border-width: 12px;
+}
+
+.pink {
+    -fx-background-color: #FF33CC;
+    -fx-border-color: #FF66CC;
+    -fx-border-width: 12px;
+}
+
 .winningPiece {
-    -fx-border-color: #7FFF00;
+    -fx-border-color: #FFFFFF;
 }

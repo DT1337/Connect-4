@@ -13,6 +13,8 @@ import javafx.util.Pair;
 
 import java.io.IOException;
 import java.net.Socket;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Objects;
 
 public class Connect4PlayerUIController {
@@ -23,16 +25,18 @@ public class Connect4PlayerUIController {
 
     @FXML private Label player1Label;
     @FXML private Label player2Label;
-    private Label[] playerLabels;
 
     @FXML private GridPane connect4Board;
 
     private Button[][] buttons;
+    private char[][] boardState;
+    private String[] opponents;
 
     private String IP;
     private int PORT;
     private Connect4BoardClientProxy connect4BoardClientProxy;
     private Connect4Player connect4Player;
+    private String playerName;
 
     public void setStage(Stage stage) {
         this.stage = stage;
@@ -146,9 +150,9 @@ public class Connect4PlayerUIController {
             });
 
             dialog.showAndWait().ifPresentOrElse(userInput -> {
-                player1Label.setText(userInput);
-                connect4Player = new Connect4Player(this, userInput);
-                playerLabels = new Label[]{player1Label, player2Label};
+                playerName = userInput;
+                player1Label.setText(playerName);
+                connect4Player = new Connect4Player(this, playerName);
 
                 try {
                     initializeConnect4Board(connect4BoardClientProxy.getBoardState());
@@ -211,36 +215,52 @@ public class Connect4PlayerUIController {
     }
 
     public void updateBoardState(char[][] boardState) {
-        Platform.runLater(() -> {
-            int numRows = boardState.length;
-            int numCols = boardState[0].length;
-            for (int row = 0; row < numRows; row++) {
-                for (int col = 0; col < numCols; col++) {
-                    Button button = buttons[row][col];
-                    char cellValue = boardState[row][col];
+        this.boardState = boardState;
 
+        int numRows = boardState.length;
+        int numCols = boardState[0].length;
+        for (int row = 0; row < numRows; row++) {
+            for (int col = 0; col < numCols; col++) {
+                Button button = buttons[row][col];
+                char cellValue = boardState[row][col];
+
+                Platform.runLater(() -> {
                     // Reset
-                    button.getStyleClass().remove("red");
-                    button.getStyleClass().remove("yellow");
-                    button.getStyleClass().remove("winningPiece");
+                    button.getStyleClass().removeAll();
+                    button.getStyleClass().add("connect4-button");
 
-                    if (cellValue == 'X') {
-                        button.getStyleClass().add("red");
-                    } else if (cellValue == 'O') {
-                        button.getStyleClass().add("yellow");
+                    if (opponents.length == 2) {
+                        switch (cellValue) {
+                            case 'X' -> button.getStyleClass().add("red");
+                            case 'O' -> button.getStyleClass().add("yellow");
+                        }
+                    } else {
+                        switch (cellValue) {
+                            case 'A' -> button.getStyleClass().add("pink");
+                            case 'B' -> button.getStyleClass().add("cyan");
+                            case 'C' -> button.getStyleClass().add("purple");
+                            case 'D' -> button.getStyleClass().add("orange");
+                            case 'E' -> button.getStyleClass().add("green");
+                            case 'F' -> button.getStyleClass().add("blue");
+                            case 'G' -> button.getStyleClass().add("yellow");
+                            case 'H' -> button.getStyleClass().add("red");
+                        }
                     }
-                }
+                });
+
+
             }
-        });
+        }
     }
 
     public void updateOpponents(String[] opponents) {
+        this.opponents = opponents;
+        ArrayList<String> opponentsList = new ArrayList<>(Arrays.asList(opponents));
+        opponentsList.remove(playerName);
+
         Platform.runLater(() -> {
-            for (int i = 0; i < playerLabels.length; i++) {
-                if (playerLabels[i] != null) {
-                    playerLabels[i].setText(opponents[i]);
-                }
-            }
+            player1Label.setText(playerName);
+            player2Label.setText(String.join(" ; ", opponentsList));
         });
     }
 

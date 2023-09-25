@@ -23,7 +23,16 @@ public class Connect4Board implements IConnect4Board {
         this(playerCount, 6, 7);
     }
 
+    public Connect4Board(int rows, int cols) {
+        this(2, rows, cols);
+    }
+
     public Connect4Board(int playerCount, int rows, int cols) {
+        // Ensure that the playerCount 8 at maximum
+        if (playerCount > 8) {
+            throw new IllegalArgumentException("The maximum number of players is 8.");
+        }
+
         // Ensure rows and columns meet the minimum requirements
         if (rows < 6 || cols < 7) {
             throw new IllegalArgumentException("The board size must be at least 6x7.");
@@ -48,7 +57,7 @@ public class Connect4Board implements IConnect4Board {
             availablePlayerChars.addAll(Arrays.asList('O', 'X'));
         } else {
             for (int i = 0; i < playerCount; i++) {
-                availablePlayerChars.add((char) (96 + i));
+                availablePlayerChars.add((char) (65 + i));
             }
         }
     }
