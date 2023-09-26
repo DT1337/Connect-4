@@ -226,7 +226,7 @@ public class Connect4PlayerUIController {
 
                 Platform.runLater(() -> {
                     // Reset
-                    button.getStyleClass().removeAll();
+                    button.getStyleClass().clear();
                     button.getStyleClass().add("connect4-button");
 
                     if (opponents.length == 2) {
