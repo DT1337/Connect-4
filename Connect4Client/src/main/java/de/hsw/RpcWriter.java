@@ -84,7 +84,7 @@ public class RpcWriter extends BufferedWriter {
                 boardString.append(" |\n");
             }
 
-            System.out.println(boardString);
+            System.err.println(boardString);
         }
 
         super.flush();

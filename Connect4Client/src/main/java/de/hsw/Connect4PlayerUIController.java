@@ -90,7 +90,7 @@ public class Connect4PlayerUIController {
                     return null;
                 } catch (NumberFormatException e) {
                     closeStage();
-                    throw new RuntimeException("Oops! That not a valid PORT number!");
+                    throw new RuntimeException("[UI - CONTROLLER]: Oops! That not a valid PORT number!");
                 }
             });
 
@@ -99,7 +99,7 @@ public class Connect4PlayerUIController {
                 PORT = userInput.getValue();
             }, () -> {
                 closeStage();
-                throw new RuntimeException("Oops! You forgot to specify the IP and port. Thus missing Connect(ion) 4 playing.");
+                throw new RuntimeException("[UI - CONTROLLER]: Oops! You forgot to specify the IP and port. Thus missing Connect(ion) 4 playing.");
             });
         } catch (Exception e) {
             handleConnectionError(e);
@@ -162,7 +162,7 @@ public class Connect4PlayerUIController {
                 }
             }, () -> {
                 closeStage();
-                throw new RuntimeException("Oops! You forgot to specify Player Name.");
+                throw new RuntimeException("[UI - CONTROLLER]: Oops! You forgot to specify Player Name.");
             });
         } catch (Exception e) {
             handleConnectionError(e);
@@ -309,7 +309,7 @@ public class Connect4PlayerUIController {
                     buttons[piece[0]][piece[1]].getStyleClass().add("winningPiece");
                 }
             } catch (IOException | ClassNotFoundException e) {
-                throw new RuntimeException(e);
+                System.err.println("[UI - CONTROLLER]: Error while trying to set the winner: " + e.getMessage());
             }
         });
     }
@@ -331,7 +331,7 @@ public class Connect4PlayerUIController {
                         try {
                             makeMoveAndUpdateStatus(col);
                         } catch (IOException e) {
-                            throw new RuntimeException(e);
+                            System.err.println("[UI - CONTROLLER]: Error while trying to make a move: " + e.getMessage());
                         }
                     }
                 }
@@ -348,7 +348,7 @@ public class Connect4PlayerUIController {
                 setStatusLabel("Cannot reset board!");
             }
         } catch (IOException e) {
-            System.out.println("Error while trying to reset the board: " + e.getMessage());
+            System.err.println("[UI - CONTROLLER]: Error while trying to reset the board: " + e.getMessage());
         }
     }
 
@@ -378,7 +378,7 @@ public class Connect4PlayerUIController {
         throwable.printStackTrace();
         String errorMessage = "An error occurred: " + throwable.getMessage();
         Platform.runLater(() -> setStatusLabel(errorMessage));
-        System.err.println(errorMessage);
+        System.err.println("[UI - CONTROLLER]: " + errorMessage);
     }
 
     private void closeStage() {

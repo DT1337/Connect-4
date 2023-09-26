@@ -51,7 +51,7 @@ public class Connect4Board implements IConnect4Board {
         // Set up the player list
         this.connect4Players  = new IConnect4Player[playerCount];
         this.opponents = new String[playerCount];
-        Arrays.fill(opponents, "[]");
+        Arrays.fill(opponents, "");
 
         if (playerCount == 2) {
             availablePlayerChars.addAll(Arrays.asList('O', 'X'));
@@ -75,7 +75,7 @@ public class Connect4Board implements IConnect4Board {
                 connect4Players[i] = joiningConnect4Player;
 
                 String playerName = joiningConnect4Player.getPlayerName();
-                opponents[i] = playerName == null ? "[]" : playerName;
+                opponents[i] = playerName == null ? "" : playerName;
 
                 joiningConnect4Player.setPlayerChar(getAvailablePlayerChars());
 
@@ -93,7 +93,7 @@ public class Connect4Board implements IConnect4Board {
         for (int i = 0; i < connect4Players.length; i++) {
             if (connect4Players[i] == leavingConnect4Player) {
                 connect4Players[i] = null;
-                opponents[i] = "[]";
+                opponents[i] = "";
                 availablePlayerChars.add(leavingConnect4Player.getPlayerChar());
 
                 updateClientOpponents();

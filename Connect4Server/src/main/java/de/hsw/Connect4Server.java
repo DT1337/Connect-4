@@ -23,7 +23,7 @@ public class Connect4Server {
                 connect4BoardServerProxyThread.start();
             }
         } catch (IOException e) {
-            System.out.println("Error while starting Server: " + e.getMessage());
+            System.err.println("[SERVER]: Error while starting server: " + e.getMessage());
         }
     }
 

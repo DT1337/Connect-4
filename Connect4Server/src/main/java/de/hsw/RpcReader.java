@@ -97,7 +97,7 @@ public class RpcReader extends BufferedReader {
                 boardString.append(" |\n");
             }
 
-            System.out.println(boardString);
+            System.err.println(boardString);
         }
 
         return value;

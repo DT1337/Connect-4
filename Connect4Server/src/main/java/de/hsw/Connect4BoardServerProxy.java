@@ -25,7 +25,7 @@ public class Connect4BoardServerProxy implements Runnable {
     @Override
     public void run() {
         try {
-            System.out.printf("[SERVER]: Connection to %s:%d opened successfully.\n", socket.getInetAddress().getHostAddress(), socket.getPort());
+            System.err.printf("[SERVER]: Connection to %s:%d opened successfully.\n", socket.getInetAddress().getHostAddress(), socket.getPort());
 
             while (!socket.isClosed()) {
                 writer.writeString("0 | [PROTOCOL]: 1. Join Game ; 2. Leave Game ; 3. Get Board State ; 4. Make Move ; 5. Is Game Over ; 6. Get Winner ; 7. Get Winning Pieces ; 8. Reset Board ; (Tech.: 0. End Connection)");
@@ -45,7 +45,7 @@ public class Connect4BoardServerProxy implements Runnable {
                 }
             }
 
-            System.out.printf("[SERVER]: Connection to %s:%d closed successfully.\n", socket.getInetAddress().getHostAddress(), socket.getPort());
+            System.err.printf("[SERVER]: Connection to %s:%d closed successfully.\n", socket.getInetAddress().getHostAddress(), socket.getPort());
         } catch (IOException | ClassNotFoundException e) {
             throw new RuntimeException(e);
         }

@@ -15,7 +15,7 @@ public class Connect4Client extends Application {
     @Override
     public void start(Stage stage) {
         try {
-            stage.setTitle("Connect 4 Board");
+            stage.setTitle("Connect 4");
 
             Image icon = new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/connect4.png")));
             stage.getIcons().add(icon);
@@ -32,7 +32,7 @@ public class Connect4Client extends Application {
             stage.show();
         } catch (IOException e) {
             e.printStackTrace();
-            System.out.println("Error while starting Client: " + e.getMessage());
+            System.err.println("[CLIENT]: Error while starting client: " + e.getMessage());
         }
     }
 
