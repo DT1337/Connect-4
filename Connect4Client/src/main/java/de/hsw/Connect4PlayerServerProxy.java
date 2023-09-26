@@ -36,7 +36,7 @@ public class Connect4PlayerServerProxy implements Runnable {
                     case 6 -> receiveBoardState();
                     case 7 -> receiveOpponents();
                     case 8 -> gameResult();
-                    default -> writer.writeString("99 | [PROTOCOL ERROR]: Invalid Option :" + option);
+                    default -> writer.writeString("99 | [PROTOCOL ERROR]: Invalid option: " + option);
                 }
             }
         } catch (IOException e) {
@@ -46,28 +46,32 @@ public class Connect4PlayerServerProxy implements Runnable {
 
     // Option 0 - End Connection
     private void endConnection() throws IOException {
+        writer.writeString("0 | [PROTOCOL]: Closing connection.");
         socket.close();
     }
 
     // Option 1 - Get Player ID
     private void getPlayerId() throws IOException {
+        writer.writeString("0 | [PROTOCOL]: Sending player id.");
         writer.writeInt(connect4Player.getPlayerId());
     }
 
     // Option 2 - Get Name
     private void getPlayerName() throws IOException {
+        writer.writeString("0 | [PROTOCOL]: Sending player name.");
         writer.writeString(connect4Player.getPlayerName());
     }
 
     // Option 3 - Set Player Char
     private void setPlayerChar() throws IOException {
-        writer.writeString("0 | [PROTOCOL]: Please provide the Player Char!");
+        writer.writeString("0 | [PROTOCOL]: Please provide the player char.");
         char playerSymbol = reader.readChar();
         connect4Player.setPlayerChar(playerSymbol);
     }
 
     // Option 4 - Get Player Char
     private void getPlayerChar() throws IOException {
+        writer.writeString("0 | [PROTOCOL]: Sending player char.");
         writer.writeChar(connect4Player.getPlayerChar());
     }
 
@@ -78,21 +82,21 @@ public class Connect4PlayerServerProxy implements Runnable {
 
     // Option 6 - Receive Board State
     private void receiveBoardState() throws IOException {
-        writer.writeString("0 | [PROTOCOL]: Please provide the Board State!");
+        writer.writeString("0 | [PROTOCOL]: Please provide the board state.");
         char[][] boardState = reader.readCharArray();
         connect4Player.receiveBoardState(boardState);
     }
 
     // Option 7 - Receive Opponents
     private void receiveOpponents() throws IOException {
-        writer.writeString("0 | [PROTOCOL]: Please provide the Opponents List!");
+        writer.writeString("0 | [PROTOCOL]: Please provide the opponents list.");
         String[] opponents = reader.readStringArray();
         connect4Player.receiveOpponents(opponents);
     }
 
     // Option 8 - Game Result
     private void gameResult() throws IOException {
-        writer.writeString("0 | [PROTOCOL]: Please provide the Game Result");
+        writer.writeString("0 | [PROTOCOL]: Please provide the game result.");
         char gameResult = reader.readChar();
         connect4Player.gameResult(gameResult);
     }

@@ -18,12 +18,14 @@ public class Connect4PlayerClientProxy implements IConnect4Player {
     // Option 0 - End Connection
     public void endConnection() throws IOException {
         selectOption(0);
+        reader.readString(); // 0 | [PROTOCOL]: Closing connection.
     }
 
     // Option 1 - Get Player ID
     @Override
     public int getPlayerId() throws IOException {
         selectOption(1);
+        reader.readString(); // 0 | [PROTOCOL]: Sending player id.
         return reader.readInt();
     }
 
@@ -31,6 +33,7 @@ public class Connect4PlayerClientProxy implements IConnect4Player {
     @Override
     public String getPlayerName() throws IOException {
         selectOption(2);
+        reader.readString(); // 0 | [PROTOCOL]: Sending player name.
         return reader.readString();
     }
 
@@ -38,7 +41,7 @@ public class Connect4PlayerClientProxy implements IConnect4Player {
     @Override
     public void setPlayerChar(char playerSymbol) throws IOException {
         selectOption(3);
-        reader.readString(); // 0 | [PROTOCOL]: Please provide the Player Char!
+        reader.readString(); // 0 | [PROTOCOL]: Please provide the player char.
         writer.writeChar(playerSymbol);
     }
 
@@ -46,6 +49,7 @@ public class Connect4PlayerClientProxy implements IConnect4Player {
     @Override
     public char getPlayerChar() throws IOException {
         selectOption(4);
+        reader.readString(); // 0 | [PROTOCOL]: Sending player char.
         return reader.readChar();
     }
 
@@ -59,7 +63,7 @@ public class Connect4PlayerClientProxy implements IConnect4Player {
     @Override
     public void receiveBoardState(char[][] boardState) throws IOException {
         selectOption(6);
-        reader.readString(); // 0 | [PROTOCOL]: Please provide the Board State!
+        reader.readString(); // 0 | [PROTOCOL]: Please provide the board state.
         writer.writeCharArray(boardState);
     }
 
@@ -67,7 +71,7 @@ public class Connect4PlayerClientProxy implements IConnect4Player {
     @Override
     public void receiveOpponents(String[] opponents) throws IOException {
         selectOption(7);
-        reader.readString(); // 0 | [PROTOCOL]: Please provide the Opponents List!
+        reader.readString(); // 0 | [PROTOCOL]: Please provide the opponents list.
         writer.writeStringArray(opponents);
     }
 
@@ -75,7 +79,7 @@ public class Connect4PlayerClientProxy implements IConnect4Player {
     @Override
     public void gameResult(char winnerSymbol) throws IOException {
         selectOption(8);
-        reader.readString(); // 0 | [PROTOCOL]: Please provide the Game Result
+        reader.readString(); // 0 | [PROTOCOL]: Please provide the game result.
         writer.writeChar(winnerSymbol);
     }
 

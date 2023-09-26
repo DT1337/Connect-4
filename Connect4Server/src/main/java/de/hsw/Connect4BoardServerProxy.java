@@ -39,7 +39,7 @@ public class Connect4BoardServerProxy implements Runnable {
                     case 6 -> getWinner();
                     case 7 -> getWinningPieces();
                     case 8 -> resetBoard();
-                    default -> writer.writeString("99 | [PROTOCOL ERROR]: Invalid Option :" + option);
+                    default -> writer.writeString("99 | [PROTOCOL ERROR]: Invalid option: " + option);
                 }
             }
         } catch (IOException | ClassNotFoundException e) {
@@ -49,21 +49,27 @@ public class Connect4BoardServerProxy implements Runnable {
 
     // Option 0 - End Connection
     private void endConnection() throws IOException {
+        writer.writeString("0 | [PROTOCOL]: Closing connection.");
         socket.close();
     }
 
     // Option 1 - Join Game
     private void joinGame() throws IOException, ClassNotFoundException {
-        writer.writeBoolean(connect4Board.joinGame(getConnect4Player()));
+        writer.writeString("0 | [PROTOCOL]: Joining the game.");
+        IConnect4Player joiningConnect4Player = getConnect4Player();
+        writer.writeBoolean(connect4Board.joinGame(joiningConnect4Player));
     }
 
     // Option 2 - Leave Game
     private void leaveGame() throws IOException, ClassNotFoundException {
-        writer.writeBoolean(connect4Board.leaveGame(getConnect4Player()));
+        writer.writeString("0 | [PROTOCOL]: Leaving the game.");
+        IConnect4Player leavingConnect4Player = getConnect4Player();
+        writer.writeBoolean(connect4Board.leaveGame(leavingConnect4Player));
     }
 
     // Option 3 - Get Board State
     private void getBoardState() throws IOException {
+        writer.writeString("0 | [PROTOCOL]: Sending the board state.");
         writer.writeCharArray(connect4Board.getBoardState());
     }
 
@@ -71,7 +77,7 @@ public class Connect4BoardServerProxy implements Runnable {
     private void makeMove() throws IOException, ClassNotFoundException {
         IConnect4Player connect4Player = getConnect4Player();
 
-        writer.writeString("0 | [PROTOCOL]: Please select a Column!");
+        writer.writeString("0 | [PROTOCOL]: Please select a column.");
         int column = reader.readInt();
 
         writer.writeBoolean(connect4Board.makeMove(column, connect4Player));
@@ -79,33 +85,38 @@ public class Connect4BoardServerProxy implements Runnable {
 
     // Option 5 - Is Game Over
     private void isGameOver() throws IOException {
+        writer.writeString("0 | [PROTOCOL]: Checking for game over.");
         writer.writeBoolean(connect4Board.isGameOver());
     }
 
     // Option 6 - Get Winner
     private void getWinner() throws IOException {
+        writer.writeString("0 | [PROTOCOL]: Sending winning char.");
         writer.writeChar(connect4Board.getWinner());
     }
 
     // Option 7 - Get Winning Pieces
     private void getWinningPieces() throws IOException {
+        writer.writeString("0 | [PROTOCOL]: Sending winning pieces.");
         writer.writeObject(connect4Board.getWinningPieces());
     }
 
     // Option 8 - ResetBoard
     private void resetBoard() throws IOException {
-        writer.writeBoolean(connect4Board.resetBoard(getConnect4Player()));
+        writer.writeString("0 | [PROTOCOL]: Resetting the board.");
+        IConnect4Player playingConnect4Player = getConnect4Player();
+        writer.writeBoolean(connect4Board.resetBoard(playingConnect4Player));
     }
 
     private IConnect4Player getConnect4Player() throws IOException {
-        writer.writeString("0 | [PROTOCOL]: Please provide your Player ID!");
+        writer.writeString("0 | [PROTOCOL]: Please provide your player id.");
         int playerId = reader.readInt();
 
         IConnect4Player connect4Player = connect4Players.get(playerId);
 
         if (connect4Player == null) {
-            String IP = reader.readString(); // IP
-            int PORT = reader.readInt(); // PORT
+            String IP = reader.readString();    // IP
+            int PORT = reader.readInt();        // PORT
 
             Socket clientSocket = new Socket(IP, PORT);
 

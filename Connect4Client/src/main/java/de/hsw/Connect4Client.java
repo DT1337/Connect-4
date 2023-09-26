@@ -37,8 +37,8 @@ public class Connect4Client extends Application {
     }
 
     public static void main(String[] args) {
-        System.out.println("Client");
-        System.out.println("Welcome to Connect 4");
+        System.out.println("[CLIENT]");
+        System.out.println("[CLIENT]: Welcome to Connect 4!");
         launch(args);
     }
 }

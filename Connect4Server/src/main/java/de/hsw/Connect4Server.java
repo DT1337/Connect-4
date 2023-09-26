@@ -28,8 +28,8 @@ public class Connect4Server {
     }
 
     public static void main(String[] args) throws IOException {
-        System.out.println("Server");
-        System.out.println("Welcome to Connect 4");
+        System.out.println("[SERVER]");
+        System.out.println("[SERVER]: Welcome to Connect 4!");
 
         ServerSocket serverSocket = new ServerSocket(7171);
 

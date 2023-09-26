@@ -66,26 +66,26 @@ public class RpcWriter extends BufferedWriter {
     }
 
     private <T> void flushStream(T value) throws IOException {
-//        System.out.println("[SERVER - WRITING]: " + value);
-//
-//        if (value instanceof char[][] charArray) {
-//            StringBuilder boardString = new StringBuilder();
-//
-//            boardString.append("\n");
-//            for (int i = 1; i <= charArray[0].length; i++) {
-//                boardString.append("   ").append(i);
-//            }
-//            boardString.append("\n");
-//
-//            for (char[] chars : charArray) {
-//                for (char aChar : chars) {
-//                    boardString.append(" | ").append(aChar);
-//                }
-//                boardString.append(" |\n");
-//            }
-//
-//            System.out.println(boardString);
-//        }
+        System.out.println("[SERVER - WRITING]: " + value);
+
+        if (value instanceof char[][] charArray) {
+            StringBuilder boardString = new StringBuilder();
+
+            boardString.append("\n");
+            for (int i = 1; i <= charArray[0].length; i++) {
+                boardString.append("   ").append(i);
+            }
+            boardString.append("\n");
+
+            for (char[] chars : charArray) {
+                for (char aChar : chars) {
+                    boardString.append(" | ").append(aChar);
+                }
+                boardString.append(" |\n");
+            }
+
+            System.out.println(boardString);
+        }
 
         super.flush();
     }

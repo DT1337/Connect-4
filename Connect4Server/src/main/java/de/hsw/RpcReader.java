@@ -79,26 +79,26 @@ public class RpcReader extends BufferedReader {
     }
 
     public <T> T returnValue(T value) {
-//        System.out.println("[SERVER - READING]: " + value);
-//
-//        if (value instanceof char[][] charArray) {
-//            StringBuilder boardString = new StringBuilder();
-//
-//            boardString.append("\n");
-//            for (int i = 1; i <= charArray[0].length; i++) {
-//                boardString.append("   ").append(i);
-//            }
-//            boardString.append("\n");
-//
-//            for (char[] chars : charArray) {
-//                for (char aChar : chars) {
-//                    boardString.append(" | ").append(aChar);
-//                }
-//                boardString.append(" |\n");
-//            }
-//
-//            System.out.println(boardString);
-//        }
+        System.out.println("[SERVER - READING]: " + value);
+
+        if (value instanceof char[][] charArray) {
+            StringBuilder boardString = new StringBuilder();
+
+            boardString.append("\n");
+            for (int i = 1; i <= charArray[0].length; i++) {
+                boardString.append("   ").append(i);
+            }
+            boardString.append("\n");
+
+            for (char[] chars : charArray) {
+                for (char aChar : chars) {
+                    boardString.append(" | ").append(aChar);
+                }
+                boardString.append(" |\n");
+            }
+
+            System.out.println(boardString);
+        }
 
         return value;
     }
