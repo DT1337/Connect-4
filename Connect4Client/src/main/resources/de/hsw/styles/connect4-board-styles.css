@@ -81,14 +81,14 @@
     -fx-text-fill: #0066FF;
 }
 
-.green {
-    -fx-background-color: #339933;
-    -fx-border-color: #00CC00;
+.light-red {
+    -fx-background-color: #c6415a;
+    -fx-border-color: #db5971;
     -fx-border-width: 12px;
 }
 
-.green-player-name {
-    -fx-text-fill: #00CC00;
+.light-red-player-name {
+    -fx-text-fill: #db5971;
 }
 
 .orange {
@@ -132,5 +132,5 @@
 }
 
 .winningPiece {
-    -fx-border-color: #FFFFFF;
+    -fx-border-color: #00CC00;
 }

@@ -240,7 +240,7 @@ public class Connect4PlayerUIController {
                             case 'B' -> button.getStyleClass().add("cyan");
                             case 'C' -> button.getStyleClass().add("purple");
                             case 'D' -> button.getStyleClass().add("orange");
-                            case 'E' -> button.getStyleClass().add("green");
+                            case 'E' -> button.getStyleClass().add("light-red");
                             case 'F' -> button.getStyleClass().add("blue");
                             case 'G' -> button.getStyleClass().add("yellow");
                             case 'H' -> button.getStyleClass().add("red");
