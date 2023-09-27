@@ -1,6 +1,7 @@
 package de.hsw;
 
 import java.io.IOException;
+import java.net.InetAddress;
 import java.net.ServerSocket;
 import java.net.Socket;
 
@@ -32,6 +33,9 @@ public class Connect4Server {
         System.out.println("[SERVER]: Welcome to Connect 4!");
 
         ServerSocket serverSocket = new ServerSocket(7171);
+
+        System.out.println("[SERVER]: Server started successfully.");
+        System.err.printf("[SERVER]: Listening on: %s:%d\n", InetAddress.getLocalHost().getHostAddress(), serverSocket.getLocalPort());
 
         Connect4Server connect4Server = new Connect4Server(serverSocket);
         connect4Server.startServer();

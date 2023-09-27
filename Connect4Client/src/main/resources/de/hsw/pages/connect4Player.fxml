@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane prefHeight="650.0" prefWidth="900.0" styleClass="stack-pane" stylesheets="@../styles/connect4-board-styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hsw.Connect4PlayerUIController">
+<StackPane prefHeight="660.0" prefWidth="900.0" styleClass="stack-pane" stylesheets="@../styles/connect4-board-styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hsw.Connect4PlayerUIController">
     <BorderPane>
         <top>
             <AnchorPane prefHeight="50.0" BorderPane.alignment="CENTER">
@@ -21,14 +21,18 @@
         </top>
         <center>
             <AnchorPane BorderPane.alignment="CENTER">
-                <GridPane fx:id="connect4Board" alignment="CENTER" styleClass="grid-pane" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="10.0" />
+                <GridPane fx:id="connect4Board" alignment="CENTER" styleClass="grid-pane" AnchorPane.bottomAnchor="5.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="10.0" />
             </AnchorPane>
         </center>
         <bottom>
         </bottom>
       <bottom>
           <AnchorPane BorderPane.alignment="CENTER">
-              <Button mnemonicParsing="false" onAction="#onResetButtonPressed" styleClass="reset-button" text="RESET" AnchorPane.bottomAnchor="15.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="5.0" />
+              <Button mnemonicParsing="false" onAction="#onResetButtonPressed" styleClass="reset-button" text="RESET" AnchorPane.bottomAnchor="30.0" AnchorPane.leftAnchor="70.0" AnchorPane.rightAnchor="70.0" AnchorPane.topAnchor="5.0" />
+              <AnchorPane prefHeight="20.0" prefWidth="884.0" styleClass="connection-container" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0">
+                  <Label styleClass="connection-label" text="CONNECTION:" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="15.0" AnchorPane.topAnchor="0.0" />
+                  <Label fx:id="connectionLabel" layoutX="92.0" layoutY="5.0" styleClass="connection-label" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="105.0" AnchorPane.topAnchor="0.0" />
+              </AnchorPane>
           </AnchorPane>
       </bottom>
     </BorderPane>

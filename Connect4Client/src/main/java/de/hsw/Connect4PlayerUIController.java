@@ -28,6 +28,8 @@ public class Connect4PlayerUIController {
 
     @FXML private GridPane connect4Board;
 
+    @FXML private Label connectionLabel;
+
     private Button[][] buttons;
     private char[][] boardState;
     private String[] opponents;
@@ -101,6 +103,7 @@ public class Connect4PlayerUIController {
         try {
             Socket socket = new Socket(IP, PORT);
             connect4BoardClientProxy = new Connect4BoardClientProxy(socket);
+            connectionLabel.setText(String.format("%s:%d", socket.getInetAddress().getHostAddress(), socket.getPort()));
         } catch (IOException e) {
             showAlert(Alert.AlertType.ERROR, "Error while trying to setup connection with the server: " + e.getMessage());
         }
