@@ -47,7 +47,7 @@ public class Connect4BoardServerProxy implements Runnable {
 
             System.err.printf("[SERVER]: Connection to %s:%d closed successfully.\n", socket.getInetAddress().getHostAddress(), socket.getPort());
         } catch (IOException | ClassNotFoundException e) {
-            throw new RuntimeException(e);
+            System.err.println("[SERVER]: An error occurred: " + e.getMessage());
         }
     }
 

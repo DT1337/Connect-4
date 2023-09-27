@@ -50,60 +50,51 @@ public class Connect4PlayerUIController {
     }
 
     private void initializeServerConnectionInputDialog() {
-        try {
-            Dialog<Pair<String, Integer>> dialog = new Dialog<>();
-            dialog.setTitle("Connect 4 - Server Connection");
-            dialog.setHeaderText("Please enter the IP address and Port");
+        Dialog<Pair<String, Integer>> dialog = new Dialog<>();
+        dialog.setTitle("Connect 4 - Server Connection");
+        dialog.setHeaderText("Please enter the IP address and PORT");
 
-            Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
-            dialogStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/connect4.png"))));
+        Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        dialogStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/connect4.png"))));
 
-            GridPane grid = new GridPane();
-            grid.setHgap(10);
-            grid.setVgap(10);
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
 
-            // IP Address
-            TextField ipAddressField = new TextField();
-            ipAddressField.setPromptText("IP Address");
-            grid.add(new Label("IP Address:"), 0, 0);
-            grid.add(ipAddressField, 1, 0);
+        // IP Address
+        TextField ipAddressField = new TextField();
+        ipAddressField.setPromptText("IP Address");
+        grid.add(new Label("IP Address:"), 0, 0);
+        grid.add(ipAddressField, 1, 0);
 
-            // PORT
-            TextField portField = new TextField();
-            portField.setPromptText("Port");
-            grid.add(new Label("Port:"), 0, 1);
-            grid.add(portField, 1, 1);
+        // PORT
+        TextField portField = new TextField();
+        portField.setPromptText("Port");
+        grid.add(new Label("Port:"), 0, 1);
+        grid.add(portField, 1, 1);
 
-            dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().setContent(grid);
 
-            ButtonType connectButton = new ButtonType("Connect", ButtonBar.ButtonData.OK_DONE);
-            dialog.getDialogPane().getButtonTypes().addAll(connectButton, ButtonType.CANCEL);
+        ButtonType connectButton = new ButtonType("Connect", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(connectButton, ButtonType.CANCEL);
 
-            Platform.runLater(ipAddressField::requestFocus);
+        Platform.runLater(ipAddressField::requestFocus);
 
-            dialog.setResultConverter(clickedButton -> {
-                try {
-                    if (clickedButton == connectButton) {
-                        return new Pair<>(ipAddressField.getText(), Integer.parseInt(portField.getText()));
-                    }
-
-                    return null;
-                } catch (NumberFormatException e) {
-                    closeStage();
-                    throw new RuntimeException("[UI - CONTROLLER]: Oops! That not a valid PORT number!");
+        dialog.setResultConverter(clickedButton -> {
+            try {
+                if (clickedButton == connectButton) {
+                    return new Pair<>(ipAddressField.getText(), Integer.parseInt(portField.getText()));
                 }
-            });
+            } catch (NumberFormatException e) {
+                showAlert(Alert.AlertType.ERROR, "Oops! That is not a valid PORT number!");
+            }
+            return null;
+        });
 
-            dialog.showAndWait().ifPresentOrElse(userInput -> {
-                IP = userInput.getKey();
-                PORT = userInput.getValue();
-            }, () -> {
-                closeStage();
-                throw new RuntimeException("[UI - CONTROLLER]: Oops! You forgot to specify the IP and port. Thus missing Connect(ion) 4 playing.");
-            });
-        } catch (Exception e) {
-            handleConnectionError(e);
-        }
+        dialog.showAndWait().ifPresentOrElse(userInput -> {
+            IP = userInput.getKey();
+            PORT = userInput.getValue();
+        }, () -> showAlert(Alert.AlertType.ERROR, "Oops! You forgot to specify the IP and PORT. Thus missing Connect(ion) 4 playing."));
     }
 
     private void setupCommunicationWithServer() {
@@ -111,62 +102,56 @@ public class Connect4PlayerUIController {
             Socket socket = new Socket(IP, PORT);
             connect4BoardClientProxy = new Connect4BoardClientProxy(socket);
         } catch (IOException e) {
-            handleConnectionError(e);
+            showAlert(Alert.AlertType.ERROR, "Error while trying to setup connection with the server: " + e.getMessage());
         }
     }
 
     private void initializePlayerNameInputDialog() {
-        try {
-            Dialog<String> dialog = new Dialog<>();
-            dialog.setTitle("Connect 4 - Player Name");
-            dialog.setHeaderText("Please enter your Player Name");
+        Dialog<String> dialog = new Dialog<>();
+        dialog.setTitle("Connect 4 - Player Name");
+        dialog.setHeaderText("Please enter your Player Name");
 
-            Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
-            dialogStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/connect4.png"))));
+        Stage dialogStage = (Stage) dialog.getDialogPane().getScene().getWindow();
+        dialogStage.getIcons().add(new Image(Objects.requireNonNull(getClass().getResourceAsStream("images/connect4.png"))));
 
-            GridPane grid = new GridPane();
-            grid.setHgap(10);
-            grid.setVgap(10);
+        GridPane grid = new GridPane();
+        grid.setHgap(10);
+        grid.setVgap(10);
 
-            // Player Name
-            TextField playerNameField = new TextField();
-            playerNameField.setPromptText("Player Name");
-            grid.add(new Label("Player Name:"), 0, 0);
-            grid.add(playerNameField, 1, 0);
+        // Player Name
+        TextField playerNameField = new TextField();
+        playerNameField.setPromptText("Player Name");
+        grid.add(new Label("Player Name:"), 0, 0);
+        grid.add(playerNameField, 1, 0);
 
-            dialog.getDialogPane().setContent(grid);
+        dialog.getDialogPane().setContent(grid);
 
-            ButtonType joinButton = new ButtonType("Join", ButtonBar.ButtonData.OK_DONE);
-            dialog.getDialogPane().getButtonTypes().addAll(joinButton, ButtonType.CANCEL);
+        ButtonType joinButton = new ButtonType("Join", ButtonBar.ButtonData.OK_DONE);
+        dialog.getDialogPane().getButtonTypes().addAll(joinButton, ButtonType.CANCEL);
 
-            Platform.runLater(playerNameField::requestFocus);
+        Platform.runLater(playerNameField::requestFocus);
 
-            dialog.setResultConverter(clickedButton -> {
-                if (clickedButton == joinButton) {
-                    return playerNameField.getText();
+        dialog.setResultConverter(clickedButton -> {
+            if (clickedButton == joinButton) {
+                return playerNameField.getText();
+            }
+            return null;
+        });
+
+        dialog.showAndWait().ifPresentOrElse(userInput -> {
+            playerName = userInput;
+            player1Label.setText(playerName);
+            connect4Player = new Connect4Player(this, playerName);
+
+            try {
+                initializeConnect4Board(connect4BoardClientProxy.getBoardState());
+                if (!connect4BoardClientProxy.joinGame(connect4Player)) {
+                    showAlert(Alert.AlertType.ERROR, "You can't join the game because it's already full.");
                 }
-
-                return null;
-            });
-
-            dialog.showAndWait().ifPresentOrElse(userInput -> {
-                playerName = userInput;
-                player1Label.setText(playerName);
-                connect4Player = new Connect4Player(this, playerName);
-
-                try {
-                    initializeConnect4Board(connect4BoardClientProxy.getBoardState());
-                    connect4BoardClientProxy.joinGame(connect4Player);
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            }, () -> {
-                closeStage();
-                throw new RuntimeException("[UI - CONTROLLER]: Oops! You forgot to specify Player Name.");
-            });
-        } catch (Exception e) {
-            handleConnectionError(e);
-        }
+            } catch (IOException e) {
+                showAlert(Alert.AlertType.ERROR, "Error while trying to join the game: " + e.getMessage());
+            }
+        }, () -> showAlert(Alert.AlertType.INFORMATION, "Oops! You forgot to specify your player name."));
     }
 
     public void initializeConnect4Board(char[][] boardState) {
@@ -309,7 +294,7 @@ public class Connect4PlayerUIController {
                     buttons[piece[0]][piece[1]].getStyleClass().add("winningPiece");
                 }
             } catch (IOException | ClassNotFoundException e) {
-                System.err.println("[UI - CONTROLLER]: Error while trying to set the winner: " + e.getMessage());
+                showAlert(Alert.AlertType.WARNING, "Error while trying to set the winner: " + e.getMessage());
             }
         });
     }
@@ -331,7 +316,7 @@ public class Connect4PlayerUIController {
                         try {
                             makeMoveAndUpdateStatus(col);
                         } catch (IOException e) {
-                            System.err.println("[UI - CONTROLLER]: Error while trying to make a move: " + e.getMessage());
+                            showAlert(Alert.AlertType.WARNING, "Error while trying to make a move: " + e.getMessage());
                         }
                     }
                 }
@@ -348,7 +333,7 @@ public class Connect4PlayerUIController {
                 setStatusLabel("Cannot reset board!");
             }
         } catch (IOException e) {
-            System.err.println("[UI - CONTROLLER]: Error while trying to reset the board: " + e.getMessage());
+            showAlert(Alert.AlertType.WARNING, "Error while trying to reset the board: " + e.getMessage());
         }
     }
 
@@ -368,21 +353,28 @@ public class Connect4PlayerUIController {
                 connect4BoardClientProxy.leaveGame(connect4Player);
                 connect4BoardClientProxy.endConnection();
             }
-            System.exit(0);
+            closeStage(0);
         } catch (IOException e) {
-            handleConnectionError(e);
+            showAlert(Alert.AlertType.ERROR, "Error while trying to leave the game and closing the connection.");
         }
     }
 
-    private void handleConnectionError(Throwable throwable) {
-        throwable.printStackTrace();
-        String errorMessage = "An error occurred: " + throwable.getMessage();
-        Platform.runLater(() -> setStatusLabel(errorMessage));
-        System.err.println("[UI - CONTROLLER]: " + errorMessage);
+    private void closeStage(int status) {
+        stage.close();
+        System.exit(status);
     }
 
-    private void closeStage() {
-        stage.close();
-        System.exit(1);
+    private void showAlert(Alert.AlertType alertType, String alertMessage) {
+        System.err.println("[UI - CONTROLLER]: " + alertMessage);
+
+        Alert alert = new Alert(alertType);
+        alert.setTitle("Connect 4 - Information");
+        alert.setContentText(alertMessage);
+
+        alert.showAndWait();
+
+        if (alertType == Alert.AlertType.ERROR) {
+            closeStage(1);
+        }
     }
 }

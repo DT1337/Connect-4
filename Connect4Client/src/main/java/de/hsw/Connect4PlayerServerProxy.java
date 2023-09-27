@@ -22,7 +22,9 @@ public class Connect4PlayerServerProxy implements Runnable {
     @Override
     public void run() {
         try {
-            while (socket.isConnected()) {
+            System.err.printf("[CLIENT]: Connection to %s:%d opened successfully.\n", socket.getInetAddress().getHostAddress(), socket.getPort());
+
+            while (!socket.isClosed()) {
                 writer.writeString("0 | [PROTOCOL]: 1. Get Player ID ; 2. Get Player Name ; 3. Set Player Char ; 4. Get Player Char ; 5. Make Move ; 6. Receive Board State ; 7. Receive Opponents ; 8. Game Result ; (Tech.: 0. End Connection)");
                 int option = reader.readInt();
 
@@ -39,8 +41,10 @@ public class Connect4PlayerServerProxy implements Runnable {
                     default -> writer.writeString("99 | [PROTOCOL ERROR]: Invalid option: " + option);
                 }
             }
+
+            System.err.printf("[CLIENT]: Connection to %s:%d closed successfully.\n", socket.getInetAddress().getHostAddress(), socket.getPort());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+            System.err.println("[CLIENT]: An error occurred: " + e.getMessage());
         }
     }
 
