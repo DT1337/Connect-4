@@ -28,7 +28,7 @@ public class Connect4BoardServerProxy implements Runnable {
             System.err.printf("[SERVER]: Connection to %s:%d opened successfully.\n", socket.getInetAddress().getHostAddress(), socket.getPort());
 
             while (!socket.isClosed()) {
-                writer.writeString("0 | [PROTOCOL]: 1. Join Game ; 2. Leave Game ; 3. Get Board State ; 4. Make Move ; 5. Is Game Over ; 6. Get Winner ; 7. Get Winning Pieces ; 8. Reset Board ; (Tech.: 0. End Connection)");
+                writer.writeString("0 | [SERVER - PROTOCOL]: 1. Join Game ; 2. Leave Game ; 3. Get Board State ; 4. Make Move ; 5. Is Game Over ; 6. Get Winner ; 7. Get Winning Pieces ; 8. Reset Board ; (Tech.: 0. End Connection)");
                 int option = reader.readInt();
 
                 switch (option) {
@@ -41,7 +41,7 @@ public class Connect4BoardServerProxy implements Runnable {
                     case 6 -> getWinner();
                     case 7 -> getWinningPieces();
                     case 8 -> resetBoard();
-                    default -> writer.writeString("99 | [PROTOCOL ERROR]: Invalid option: " + option);
+                    default -> writer.writeString("99 | [SERVER - PROTOCOL - ERROR]: Invalid option: " + option);
                 }
             }
 
@@ -53,27 +53,35 @@ public class Connect4BoardServerProxy implements Runnable {
 
     // Option 0 - End Connection
     private void endConnection() throws IOException {
-        writer.writeString("0 | [PROTOCOL]: Closing connection.");
+        writer.writeString("0 | [SERVER - PROTOCOL]: Closing connection.");
         socket.close();
     }
 
     // Option 1 - Join Game
     private void joinGame() throws IOException, ClassNotFoundException {
-        writer.writeString("0 | [PROTOCOL]: Joining the game.");
+        writer.writeString("0 | [SERVER - PROTOCOL]: Joining the game.");
+
         IConnect4Player joiningConnect4Player = getConnect4Player();
-        writer.writeBoolean(connect4Board.joinGame(joiningConnect4Player));
+
+        boolean isJoinSuccessful = connect4Board.joinGame(joiningConnect4Player);
+        writer.writeString("0 | [SERVER - PROTOCOL]: Sending join status.");
+        writer.writeBoolean(isJoinSuccessful);
     }
 
     // Option 2 - Leave Game
     private void leaveGame() throws IOException, ClassNotFoundException {
-        writer.writeString("0 | [PROTOCOL]: Leaving the game.");
+        writer.writeString("0 | [SERVER - PROTOCOL]: Leaving the game.");
+
         IConnect4Player leavingConnect4Player = getConnect4Player();
-        writer.writeBoolean(connect4Board.leaveGame(leavingConnect4Player));
+
+        boolean isLeaveSuccessful = connect4Board.leaveGame(leavingConnect4Player);
+        writer.writeString("0 | [SERVER - PROTOCOL]: Sending leave status.");
+        writer.writeBoolean(isLeaveSuccessful);
     }
 
     // Option 3 - Get Board State
     private void getBoardState() throws IOException {
-        writer.writeString("0 | [PROTOCOL]: Sending the board state.");
+        writer.writeString("0 | [SERVER - PROTOCOL]: Sending the board state.");
         writer.writeCharArray(connect4Board.getBoardState());
     }
 
@@ -81,39 +89,45 @@ public class Connect4BoardServerProxy implements Runnable {
     private void makeMove() throws IOException, ClassNotFoundException {
         IConnect4Player connect4Player = getConnect4Player();
 
-        writer.writeString("0 | [PROTOCOL]: Please select a column.");
+        writer.writeString("0 | [SERVER - PROTOCOL]: Please select a column.");
         int column = reader.readInt();
 
-        writer.writeBoolean(connect4Board.makeMove(column, connect4Player));
+        boolean isMoveSuccessful = connect4Board.makeMove(column, connect4Player);
+        writer.writeString("0 | [SERVER - PROTOCOL]: Sending move status.");
+        writer.writeBoolean(isMoveSuccessful);
     }
 
     // Option 5 - Is Game Over
     private void isGameOver() throws IOException {
-        writer.writeString("0 | [PROTOCOL]: Checking for game over.");
+        writer.writeString("0 | [SERVER - PROTOCOL]: Checking for game over.");
         writer.writeBoolean(connect4Board.isGameOver());
     }
 
     // Option 6 - Get Winner
     private void getWinner() throws IOException {
-        writer.writeString("0 | [PROTOCOL]: Sending winning char.");
+        writer.writeString("0 | [SERVER - PROTOCOL]: Sending winning char.");
         writer.writeChar(connect4Board.getWinner());
     }
 
     // Option 7 - Get Winning Pieces
     private void getWinningPieces() throws IOException {
-        writer.writeString("0 | [PROTOCOL]: Sending winning pieces.");
+        writer.writeString("0 | [SERVER - PROTOCOL]: Sending winning pieces.");
         writer.writeObject(connect4Board.getWinningPieces());
     }
 
     // Option 8 - ResetBoard
     private void resetBoard() throws IOException {
-        writer.writeString("0 | [PROTOCOL]: Resetting the board.");
+        writer.writeString("0 | [SERVER - PROTOCOL]: Resetting the board.");
+
         IConnect4Player playingConnect4Player = getConnect4Player();
-        writer.writeBoolean(connect4Board.resetBoard(playingConnect4Player));
+
+        boolean isResetSuccessful = connect4Board.resetBoard(playingConnect4Player);
+        writer.writeString("0 | [SERVER - PROTOCOL]: Sending reset status.");
+        writer.writeBoolean(isResetSuccessful);
     }
 
     private IConnect4Player getConnect4Player() throws IOException {
-        writer.writeString("0 | [PROTOCOL]: Please provide your player id.");
+        writer.writeString("0 | [SERVER - PROTOCOL]: Please provide your player id.");
         int playerId = reader.readInt();
 
         IConnect4Player connect4Player = connect4Players.get(playerId);
