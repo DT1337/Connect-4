@@ -16,7 +16,7 @@ public class RpcReader extends BufferedReader {
     public char readChar() throws IOException {
         String line = super.readLine();
         if (line == null || line.length() != 1) {
-            throw new IOException("Failed to read a character");
+            throw new IOException("[RPC - READER]: Failed to read a character.");
         }
         return returnValue(line.charAt(0));
     }
@@ -24,19 +24,19 @@ public class RpcReader extends BufferedReader {
     public int readInt() throws IOException {
         String line = super.readLine();
         if (line == null) {
-            throw new EOFException("End of stream reached");
+            throw new EOFException("[RPC - READER]: End of stream reached.");
         }
         try {
             return returnValue(Integer.parseInt(line));
         } catch (NumberFormatException e) {
-            throw new IOException("Failed to read an integer: " + e.getMessage());
+            throw new IOException("[RPC - READER]: Failed to read an integer: " + e.getMessage());
         }
     }
 
     public boolean readBoolean() throws IOException {
         String line = super.readLine();
         if (line == null) {
-            throw new EOFException("End of stream reached");
+            throw new EOFException("[RPC - READER]: End of stream reached.");
         }
         return returnValue(Boolean.parseBoolean(line));
     }
@@ -47,7 +47,7 @@ public class RpcReader extends BufferedReader {
         for (int i = 0; i < numRows; i++) {
             String line = super.readLine();
             if (line == null) {
-                throw new EOFException("End of stream reached");
+                throw new EOFException("[RPC - READER]: End of stream reached.");
             }
             stringArray[i] = line;
         }
@@ -60,7 +60,7 @@ public class RpcReader extends BufferedReader {
         for (int i = 0; i < numRows; i++) {
             String line = super.readLine();
             if (line == null) {
-                throw new EOFException("End of stream reached");
+                throw new EOFException("[RPC - READER]: End of stream reached.");
             }
             charArray[i] = line.toCharArray();
         }
@@ -70,7 +70,7 @@ public class RpcReader extends BufferedReader {
     public Object readObject() throws IOException, ClassNotFoundException {
         String line = super.readLine();
         if (line == null) {
-            throw new EOFException("End of stream reached");
+            throw new EOFException("[RPC - READER]: End of stream reached.");
         }
         byte[] objectData = Base64.getDecoder().decode(line);
         try (ObjectInputStream ois = new ObjectInputStream(new ByteArrayInputStream(objectData))) {

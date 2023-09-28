@@ -17,7 +17,7 @@ public class RpcWriter extends BufferedWriter {
 
     public void writeChar(char value) throws IOException {
         super.write(value + "\n");
-        super.flush();
+        flushStream(value);
     }
 
     public void writeInt(int value) throws IOException {
