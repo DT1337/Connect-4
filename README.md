@@ -19,6 +19,7 @@
 Before you can run the Connect 4 application, you need to have the following software installed on your machine:
 
 - Java Development Kit (JDK) 17 or later
+- Apache Maven 3.9.4 or later
 
 ## Usage
 
