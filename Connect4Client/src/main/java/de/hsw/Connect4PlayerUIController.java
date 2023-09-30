@@ -224,14 +224,14 @@ public class Connect4PlayerUIController {
                         }
                     } else {
                         switch (cellValue) {
-                            case 'A' -> button.getStyleClass().add("pink");
-                            case 'B' -> button.getStyleClass().add("cyan");
-                            case 'C' -> button.getStyleClass().add("purple");
-                            case 'D' -> button.getStyleClass().add("orange");
-                            case 'E' -> button.getStyleClass().add("light-red");
-                            case 'F' -> button.getStyleClass().add("blue");
-                            case 'G' -> button.getStyleClass().add("yellow");
-                            case 'H' -> button.getStyleClass().add("red");
+                            case 'A' -> button.getStyleClass().add("red");
+                            case 'B' -> button.getStyleClass().add("yellow");
+                            case 'C' -> button.getStyleClass().add("blue");
+                            case 'D' -> button.getStyleClass().add("light-red");
+                            case 'E' -> button.getStyleClass().add("orange");
+                            case 'F' -> button.getStyleClass().add("purple");
+                            case 'G' -> button.getStyleClass().add("cyan");
+                            case 'H' -> button.getStyleClass().add("pink");
                         }
                     }
                 });
@@ -263,14 +263,14 @@ public class Connect4PlayerUIController {
                 }
             } else {
                 switch (connect4Player.getPlayerChar()) {
-                    case 'A' -> player1Label.getStyleClass().add("pink-player-name");
-                    case 'B' -> player1Label.getStyleClass().add("cyan-player-name");
-                    case 'C' -> player1Label.getStyleClass().add("purple-player-name");
-                    case 'D' -> player1Label.getStyleClass().add("orange-player-name");
-                    case 'E' -> player1Label.getStyleClass().add("green-player-name");
-                    case 'F' -> player1Label.getStyleClass().add("blue-player-name");
-                    case 'G' -> player1Label.getStyleClass().add("yellow-player-name");
-                    case 'H' -> player1Label.getStyleClass().add("red-player-name");
+                    case 'A' -> player1Label.getStyleClass().add("red-player-name");
+                    case 'B' -> player1Label.getStyleClass().add("yellow-player-name");
+                    case 'C' -> player1Label.getStyleClass().add("blue-player-name");
+                    case 'D' -> player1Label.getStyleClass().add("light-red-player-name");
+                    case 'E' -> player1Label.getStyleClass().add("orange-player-name");
+                    case 'F' -> player1Label.getStyleClass().add("purple-player-name");
+                    case 'G' -> player1Label.getStyleClass().add("cyan-player-name");
+                    case 'H' -> player1Label.getStyleClass().add("pink-player-name");
                 }
             }
         });

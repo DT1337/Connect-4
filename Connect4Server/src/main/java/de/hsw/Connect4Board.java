@@ -1,14 +1,14 @@
 package de.hsw;
 
 import java.io.IOException;
+import java.util.ArrayDeque;
 import java.util.Arrays;
-import java.util.Stack;
 
 public class Connect4Board implements IConnect4Board {
 
     private final IConnect4Player[] connect4Players;
     private final String[] opponents;
-    private final Stack<Character> availablePlayerChars = new Stack<>();
+    private final ArrayDeque<Character> availablePlayerChars = new ArrayDeque<>();
     private int currentPlayerIndex = 0;
 
     private final char[][] connect4Board;
@@ -54,7 +54,7 @@ public class Connect4Board implements IConnect4Board {
         Arrays.fill(opponents, "");
 
         if (playerCount == 2) {
-            availablePlayerChars.addAll(Arrays.asList('O', 'X'));
+            availablePlayerChars.addAll(Arrays.asList('X', 'O'));
         } else {
             for (int i = 0; i < playerCount; i++) {
                 availablePlayerChars.add((char) (65 + i));
