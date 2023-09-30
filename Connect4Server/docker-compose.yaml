@@ -1,0 +1,9 @@
+services:
+  app:
+    image: openjdk:17-jdk-slim
+    ports:
+      - "7171:7171"
+    working_dir: /app
+    command: ["java", "-jar", "Connect4Server.jar"]
+    volumes:
+      - ./target/Connect4Server-1.0-SNAPSHOT.jar:/app/Connect4Server.jar
