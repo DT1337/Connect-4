@@ -2,7 +2,7 @@
 
 **Connect 4 Distributed System** is an implementation of the classic Connect 4 game with a JavaFX frontend for the client. This distributed system is built on a server-client architecture where the server manages the game board, and clients communicate with the server via sockets.
 
-![image](https://github.com/DT1337/Connect4/assets/92855706/a4a036ed-c95b-4fab-b32a-9f13b61cd7ca)
+![image](https://github.com/DT1337/Connect-4/assets/92855706/b68c984d-72f2-49fa-bb40-a125e422d9ee)
 
 ## Table of Contents
 
