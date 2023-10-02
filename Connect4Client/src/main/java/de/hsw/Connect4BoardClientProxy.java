@@ -13,7 +13,7 @@ public class Connect4BoardClientProxy implements IConnect4Board {
     private final RpcReader reader;
     private final RpcWriter writer;
 
-    private final Hashtable<IConnect4Player, Integer> connect4Players = new Hashtable<>();
+    private final Hashtable<IConnect4Player, String> connect4Players = new Hashtable<>();
 
     public Connect4BoardClientProxy(Socket socket) throws IOException {
         reader = new RpcReader(new InputStreamReader(socket.getInputStream()));
@@ -109,14 +109,15 @@ public class Connect4BoardClientProxy implements IConnect4Board {
 
     private void sendConnect4Player(IConnect4Player playingConnect4Player) throws IOException {
         reader.readString(); // 0 | [SERVER - PROTOCOL]: Please provide your player id.
-        writer.writeInt(playingConnect4Player.getPlayerId());
+        writer.writeString(playingConnect4Player.getPlayerId());
 
-        Integer playerId = connect4Players.get(playingConnect4Player);
+        String playerId = connect4Players.get(playingConnect4Player);
 
         if (playerId == null) {
             connect4Players.put(playingConnect4Player, playingConnect4Player.getPlayerId());
 
             try (ServerSocket serverSocket = new ServerSocket(0)) {
+                reader.readString(); // 0 | [SERVER - PROTOCOL]: Player unknown. Please provide your IP and PORT.
                 writer.writeString(InetAddress.getLocalHost().getHostAddress());    // IP
                 writer.writeInt(serverSocket.getLocalPort());                       // PORT
 

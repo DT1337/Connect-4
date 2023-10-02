@@ -13,7 +13,7 @@ public class Connect4BoardServerProxy implements Runnable {
     private final RpcReader reader;
     private final RpcWriter writer;
 
-    private final Hashtable<Integer, IConnect4Player> connect4Players = new Hashtable<>();
+    private final Hashtable<String, IConnect4Player> connect4Players = new Hashtable<>();
 
     public Connect4BoardServerProxy(Socket socket, IConnect4Board connect4Board) throws IOException {
         this.socket = socket;
@@ -128,11 +128,12 @@ public class Connect4BoardServerProxy implements Runnable {
 
     private IConnect4Player getConnect4Player() throws IOException {
         writer.writeString("0 | [SERVER - PROTOCOL]: Please provide your player id.");
-        int playerId = reader.readInt();
+        String playerId = reader.readString();
 
         IConnect4Player connect4Player = connect4Players.get(playerId);
 
         if (connect4Player == null) {
+            writer.writeString("0 | [SERVER - PROTOCOL]: Player unknown. Please provide your IP and PORT.");
             String IP = reader.readString();    // IP
             int PORT = reader.readInt();        // PORT
 

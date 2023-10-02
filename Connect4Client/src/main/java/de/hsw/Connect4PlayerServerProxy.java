@@ -57,7 +57,7 @@ public class Connect4PlayerServerProxy implements Runnable {
     // Option 1 - Get Player ID
     private void getPlayerId() throws IOException {
         writer.writeString("0 | [CLIENT - PROTOCOL]: Sending player id.");
-        writer.writeInt(connect4Player.getPlayerId());
+        writer.writeString(connect4Player.getPlayerId());
     }
 
     // Option 2 - Get Name

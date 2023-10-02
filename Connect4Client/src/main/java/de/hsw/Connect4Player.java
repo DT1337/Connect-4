@@ -1,20 +1,22 @@
 package de.hsw;
 
+import java.util.UUID;
+
 public class Connect4Player implements IConnect4Player {
 
     private final Connect4PlayerUIController connect4PlayerUIController;
     private final String playerName;
-    private final int playerId;
+    private final String playerId;
     private char playerChar;
 
     public Connect4Player(Connect4PlayerUIController connect4PlayerUIController, String name) {
         this.connect4PlayerUIController = connect4PlayerUIController;
         this.playerName = name;
-        this.playerId = name.hashCode();
+        this.playerId = UUID.randomUUID().toString();
     }
 
     @Override
-    public int getPlayerId() {
+    public String getPlayerId() {
         return playerId;
     }
 

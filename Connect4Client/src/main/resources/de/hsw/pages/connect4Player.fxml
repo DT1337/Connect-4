@@ -8,7 +8,7 @@
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.StackPane?>
 
-<StackPane prefHeight="660.0" prefWidth="900.0" styleClass="stack-pane" stylesheets="@../styles/connect4-board-styles.css" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hsw.Connect4PlayerUIController">
+<StackPane prefHeight="660.0" prefWidth="900.0" styleClass="stack-pane" stylesheets="@../styles/connect4-board-styles.css" xmlns="http://javafx.com/javafx/17" xmlns:fx="http://javafx.com/fxml/1" fx:controller="de.hsw.Connect4PlayerUIController">
     <BorderPane>
         <top>
             <AnchorPane prefHeight="50.0" BorderPane.alignment="CENTER">

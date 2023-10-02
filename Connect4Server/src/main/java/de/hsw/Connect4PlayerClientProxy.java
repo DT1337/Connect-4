@@ -23,10 +23,10 @@ public class Connect4PlayerClientProxy implements IConnect4Player {
 
     // Option 1 - Get Player ID
     @Override
-    public int getPlayerId() throws IOException {
+    public String getPlayerId() throws IOException {
         selectOption(1);
         reader.readString(); // 0 | [CLIENT - PROTOCOL]: Sending player id.
-        return reader.readInt();
+        return reader.readString();
     }
 
     // Option 2 - Get Player Name

@@ -11,7 +11,7 @@ public interface IConnect4Player extends Serializable {
      * @return The player's ID.
      * @throws IOException if there is a network-related error.
      */
-    int getPlayerId() throws IOException;
+    String getPlayerId() throws IOException;
 
     /**
      * Get the Name of the player.
