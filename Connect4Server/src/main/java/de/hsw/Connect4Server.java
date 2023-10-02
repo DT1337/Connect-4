@@ -13,10 +13,8 @@ public class Connect4Server {
         this.serverSocket = serverSocket;
     }
 
-    private void startServer() {
+    private void startServer(Connect4Board connect4Board) {
         try {
-            Connect4Board connect4Board = new Connect4Board();
-
             while (!serverSocket.isClosed()) {
                 Socket clientSocket = serverSocket.accept();
                 Connect4BoardServerProxy connect4BoardServerProxy = new Connect4BoardServerProxy(clientSocket, connect4Board);
@@ -38,6 +36,16 @@ public class Connect4Server {
         System.err.printf("[SERVER]: Listening on %s:%d\n", InetAddress.getLocalHost().getHostAddress(), serverSocket.getLocalPort());
 
         Connect4Server connect4Server = new Connect4Server(serverSocket);
-        connect4Server.startServer();
+
+        Connect4Board connect4Board;
+
+        if (args.length == 3) {
+            connect4Board = new Connect4Board(Integer.parseInt(args[0]), Integer.parseInt(args[1]), Integer.parseInt(args[2]));
+        } else {
+            connect4Board = new Connect4Board();
+        }
+
+        connect4Server.startServer(connect4Board);
+
     }
 }
