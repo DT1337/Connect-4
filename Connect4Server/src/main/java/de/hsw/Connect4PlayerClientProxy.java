@@ -39,10 +39,10 @@ public class Connect4PlayerClientProxy implements IConnect4Player {
 
     // Option 3 - Set Player Char
     @Override
-    public void setPlayerChar(char playerSymbol) throws IOException {
+    public void setPlayerChar(char playerChar) throws IOException {
         selectOption(3);
         reader.readString(); // 0 | [CLIENT - PROTOCOL]: Please provide the player char.
-        writer.writeChar(playerSymbol);
+        writer.writeChar(playerChar);
     }
 
     // Option 4 - Get Player Char

@@ -69,8 +69,8 @@ public class Connect4PlayerServerProxy implements Runnable {
     // Option 3 - Set Player Char
     private void setPlayerChar() throws IOException {
         writer.writeString("0 | [CLIENT - PROTOCOL]: Please provide the player char.");
-        char playerSymbol = reader.readChar();
-        connect4Player.setPlayerChar(playerSymbol);
+        char playerChar = reader.readChar();
+        connect4Player.setPlayerChar(playerChar);
     }
 
     // Option 4 - Get Player Char
