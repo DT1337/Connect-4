@@ -10,7 +10,7 @@
 - [Usage](#usage)
   - [Client](#client)
     - [Running the Client with Maven](#running-the-client-with-maven)
-    - [Running the Client JAR](#running-the-client-jar)
+    - [Running the Client JAR](#running-the-client-jar-requires-javafx-runtime)
   - [Server](#server)
     - [Running the Server JAR](#running-the-server-jar)
 
@@ -20,14 +20,14 @@ Before you can run the Connect 4 application, you need to have the following sof
 
 - Java Development Kit (JDK) 17 or later
 - Apache Maven 3.9.4 or later
+- optional: JavaFX Runtime when running the Client JAR
 
 ## Usage
 
 Clone this repository:
 
 ```bash
-git clone https://github.com/DT1337/Connect4
-cd Connect4
+git clone https://github.com/DT1337/Connect-4 && cd Connect-4
 ```
 
 ### Client
@@ -35,17 +35,15 @@ cd Connect4
 #### Running the Client with Maven
 
 ```bash
-cd Connect4Client
-mvn clean javafx:run
+cd Connect4Client && mvn clean javafx:run
 ```
 
-#### Running the Client JAR
+#### Running the Client JAR (requires JavaFX Runtime)
 
 1. Build the JAR using Maven:
 
 ```bash
-cd Connect4Client
-mvn clean package
+cd Connect4Client && mvn clean package
 ```
 
 2. Run the JAR file:
@@ -61,8 +59,7 @@ java -jar target/Connect4Client-1.0-SNAPSHOT.jar
 1. Build the JAR using Maven:
 
 ```bash
-cd Connect4Server
-mvn clean package
+cd Connect4Server && mvn clean package
 ```
 
 2. Run the JAR file:
