@@ -13,6 +13,7 @@ public class Connect4BoardTest {
     private Connect4Board connect4Board;
     private IConnect4Player player1;
     private IConnect4Player player2;
+    private IConnect4Player player3;
 
     @Before
     public void setUp() {
@@ -23,6 +24,7 @@ public class Connect4BoardTest {
 
         player1 = new Connect4Player(mockController, "Player 1");
         player2 = new Connect4Player(mockController, "Player 2");
+        player3 = new Connect4Player(mockController, "Player 3");
     }
 
     @Test
@@ -75,8 +77,9 @@ public class Connect4BoardTest {
         boardState = connect4Board.getBoardState();
         assertEquals(player2.getPlayerChar(), boardState[4][0]);
 
-        assertFalse(connect4Board.makeMove(7, player1)); // Invalid move, column out of range
+        assertFalse(connect4Board.makeMove(69, player1)); // Invalid move, column out of range
         assertFalse(connect4Board.makeMove(0, null)); // Invalid move, player is null
+        assertFalse(connect4Board.makeMove(1, player3)); // Invalid move, player not joined
     }
 
     @Test

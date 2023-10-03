@@ -1,0 +1,204 @@
+@startuml
+
+class Connect4Client implements Application {
+    +start(stage: Stage) : void
+    +main(args: String[]) : void
+}
+
+Connect4Client --> Connect4PlayerUIController
+
+interface IConnect4Player {
+    +getPlayerId() : String
+    +getPlayerName() : String
+    +setPlayerChar(playerChar: char) : void
+    +getPlayerChar() : char
+    +makeMove() : void
+    +receiveBoardState(boardState: char[][]) : void
+    +receiveOpponents(opponents: String[]) : void
+    +gameResult(winnerChar: char) : void
+}
+
+class Connect4Player implements IConnect4Player {
+    -connect4PlayerUIController: Connect4PlayerUIController
+    -playerName: String
+    -playerId: String
+    -playerChar: char
+    +Connect4Player(connect4PlayerUIController: Connect4PlayerUIController, name: String)
+    +getPlayerId() : String
+    +getPlayerName() : String
+    +setPlayerChar(playerChar: char) : void
+    +getPlayerChar() : char
+    +makeMove() : void
+    +receiveBoardState(boardState: char[][]) : void
+    +receiveOpponents(opponents: String[]) : void
+    +gameResult(winnerChar: char) : void
+}
+
+Connect4Player --> Connect4PlayerUIController
+
+class Connect4PlayerServerProxy implements Runnable {
+    -socket: Socket
+    -connect4Player: IConnect4Player
+    -reader: RpcReader
+    -writer: RpcWriter
+    +Connect4PlayerServerProxy(socket: Socket, connect4Player: IConnect4Player) throws IOException
+    +run() : void
+    -endConnection() : void
+    -getPlayerId() : void
+    -getPlayerName() : void
+    -setPlayerChar() : void
+    -getPlayerChar() : void
+    -makeMove() : void
+    -receiveBoardState() : void
+    -receiveOpponents() : void
+    -gameResult() : void
+}
+
+Connect4PlayerServerProxy --> RpcReader
+Connect4PlayerServerProxy --> RpcWriter
+
+class Connect4BoardClientProxy implements IConnect4Board {
+    -reader: RpcReader
+    -writer: RpcWriter
+    -connect4Players: Hashtable<IConnect4Player, String>
+    +Connect4BoardClientProxy(socket: Socket) throws IOException
+    +endConnection() : void
+    +joinGame(joiningConnect4Player: IConnect4Player) : boolean
+    +leaveGame(leavingConnect4Player: IConnect4Player) : boolean
+    +getBoardState() : char[][]
+    +makeMove(column: int, playingConnect4Player: IConnect4Player) : boolean
+    +isGameOver() : boolean
+    +getWinner() : char
+    +getWinningPieces() : int[][]
+    +resetBoard(playingConnect4Player: IConnect4Player) : boolean
+    -sendConnect4Player(playingConnect4Player: IConnect4Player) : void
+    -selectOption(option: int) : void
+}
+
+Connect4BoardClientProxy --> RpcReader
+Connect4BoardClientProxy --> RpcWriter
+
+class Connect4PlayerUIController {
+    +setStage(stage: Stage) : void
+    +initializeConnect4Game() : void
+    +setStatusLabel(status: String) : void
+    +updateBoardState(boardState: char[][]) : void
+    +updateOpponents(opponents: String[]) : void
+    +setWinner(winnerChar: char) : void
+}
+
+
+
+
+class Connect4Server {
+    - ServerSocket serverSocket
+    + Connect4Server(ServerSocket serverSocket)
+    + startServer(Connect4Board connect4Board): void
+    + main(String[] args): void
+}
+
+interface IConnect4Board {
+    +joinGame(joiningConnect4Player: IConnect4Player) : boolean
+    +leaveGame(leavingConnect4Player: IConnect4Player) : boolean
+    +getBoardState() : char[][]
+    +makeMove(column: int, playingConnect4Player: IConnect4Player) : boolean
+    +isGameOver() : boolean
+    +getWinner() : char
+    +getWinningPieces() : int[][]
+    +resetBoard(playingConnect4Player: IConnect4Player) : boolean
+}
+
+class Connect4Board implements IConnect4Board {
+    - IConnect4Player[] connect4Players
+    - String[] opponents
+    - ArrayDeque<Character> availablePlayerChars
+    - int currentPlayerIndex
+    - char[][] connect4Board
+    - int rows
+    - int cols
+    + Connect4Board()
+    + Connect4Board(int playerCount)
+    + Connect4Board(int rows, int cols)
+    + Connect4Board(int playerCount, int rows, int cols)
+    + joinGame(IConnect4Player joiningConnect4Player): boolean
+    + leaveGame(IConnect4Player leavingConnect4Player): boolean
+    + getBoardState(): char[][]
+    + makeMove(int column, IConnect4Player playingConnect4Player): boolean
+    + isGameOver(): boolean
+    + getWinner(): char
+    + getWinningPieces(): int[][]
+    + resetBoard(IConnect4Player playingConnect4Player): boolean
+    - getAvailableRow(int column): int
+    - updateClientBoards(): void
+    - updateClientOpponents(): void
+    - sendPlayersGameResult(): void
+    - getAvailablePlayerChars(): char
+}
+
+class Connect4BoardServerProxy implements Runnable {
+    - Socket socket
+    - IConnect4Board connect4Board
+    - RpcReader reader
+    - RpcWriter writer
+    - Hashtable<String, IConnect4Player> connect4Players
+    + Connect4BoardServerProxy(Socket socket, IConnect4Board connect4Board) throws IOException
+    + run(): void
+    - endConnection(): void
+    - joinGame(): void
+    - leaveGame(): void
+    - getBoardState(): void
+    - makeMove(): void
+    - isGameOver(): void
+    - getWinner(): void
+    - getWinningPieces(): void
+    - resetBoard(): void
+    - getConnect4Player(): IConnect4Player
+}
+
+Connect4BoardServerProxy --> RpcReader
+Connect4BoardServerProxy --> RpcWriter
+
+class Connect4PlayerClientProxy implements IConnect4Player {
+    - RpcReader reader
+    - RpcWriter writer
+    + Connect4PlayerClientProxy(Socket socket) throws IOException
+    + endConnection(): void
+    + getPlayerId(): String
+    + getPlayerName(): String
+    + setPlayerChar(char playerChar): void
+    + getPlayerChar(): char
+    + makeMove(): void
+    + receiveBoardState(char[][] boardState): void
+    + receiveOpponents(String[] opponents): void
+    + gameResult(char winnerSymbol): void
+    - selectOption(int option): void
+}
+
+Connect4PlayerClientProxy --> RpcReader
+Connect4PlayerClientProxy --> RpcWriter
+
+
+class RpcReader {
+    +readString() : String
+    +readChar(): char
+    +readInt() : int
+    +readBoolean() : boolean
+    +readStringArray(): String[]
+    +readCharArray() : char[][]
+    +readObject() : Object
+}
+
+class RpcWriter {
+    +writeString(data: String) : void
+    +writeChar(data: char): void
+    +writeInt(data: int) : void
+    +writeBoolean(data: boolean) : void
+    +writeStringArray(data: String[]): void
+    +writeCharArray(data: char[][]) : void
+    +writeObject(data: Object) : void
+}
+
+
+
+
+@enduml

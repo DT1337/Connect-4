@@ -1,0 +1,11 @@
+@startuml
+participant "Connect4Client" as Client
+participant "Connect4BoardClientProxy" as BoardClientProxy
+participant "Connect4BoardServerProxy" as BoardServerProxy
+participant "Connect4Server" as Server
+
+Client -> Server: new Socket(IP, PORT);
+Server --> Client: serverSocket.accept();
+Server -> BoardServerProxy: new Connect4BoardServerProxy(clientSocket);
+Client -> BoardClientProxy: new Connect4BoardClientProxy(socket);
+@enduml

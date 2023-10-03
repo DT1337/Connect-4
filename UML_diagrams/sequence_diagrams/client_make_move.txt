@@ -1,0 +1,59 @@
+@startuml
+participant "Connect4Player" as Player
+participant "Connect4PlayerServerProxy" as PlayerServerProxy
+participant "Connect4BoardClientProxy" as BoardClientProxy
+participant "Connect4BoardServerProxy" as BoardServerProxy
+participant "Connect4PlayerClientProxy" as PlayerClientProxy
+participant "Connect4Board" as Board
+
+Player -> BoardClientProxy: makeMove(column, connect4Player);
+BoardClientProxy -> BoardServerProxy: makeMove();
+BoardClientProxy --> BoardServerProxy: sendColumn();
+BoardClientProxy --> BoardServerProxy: sendPlayerId(connect4Player.getPlayerId());
+
+alt if playerId unknown
+    group create new Connect4PlayerProxy
+        BoardClientProxy --> BoardServerProxy: sendIp(); sendPort();
+        BoardServerProxy -> BoardClientProxy: new Socket(IP, PORT);
+        BoardClientProxy --> BoardServerProxy: serverSocket.accept();
+        BoardClientProxy -> PlayerServerProxy: new Connect4PlayerServerProxy(clientSocket);
+        BoardServerProxy -> PlayerClientProxy: new Connect4PlayerClientProxy(socket);
+    end
+end
+
+BoardServerProxy -> Board: makeMove(column, Connect4PlayerClientProxy);
+
+alt if player not joined or not their turn or no legal move
+    Board --> BoardServerProxy: false;
+    BoardServerProxy --> BoardClientProxy: false;
+    BoardClientProxy --> Player: false;
+else if isGameOver()
+    group for all players
+        Board --> PlayerClientProxy: gameResult();
+        PlayerClientProxy --> PlayerServerProxy: gameResult();
+        PlayerServerProxy --> Player: gameResult();
+    end
+
+    Board --> BoardServerProxy: false;
+    BoardServerProxy --> BoardClientProxy: false;
+    BoardClientProxy --> Player: false;
+else
+    Board -> PlayerClientProxy: getPlayerChar();
+    PlayerClientProxy -> PlayerServerProxy: getPlayerChar();
+    PlayerServerProxy -> Player: getPlayerChar();
+    Player --> PlayerServerProxy: sendPlayerChar();
+    PlayerServerProxy --> PlayerClientProxy: sendPlayerChar();
+    PlayerClientProxy --> Board: sendPlayerChar();
+
+    group for all players
+        Board --> PlayerClientProxy: receiveBoardState();
+        PlayerClientProxy --> PlayerServerProxy: receiveBoardState();
+        PlayerServerProxy --> Player: receiveBoardState();
+    end
+
+    Board --> BoardServerProxy: true;
+    BoardServerProxy --> BoardClientProxy: true;
+    BoardClientProxy --> Player: true;
+end
+
+@enduml

@@ -1,0 +1,50 @@
+@startuml
+participant "Connect4Player" as Player
+participant "Connect4PlayerServerProxy" as PlayerServerProxy
+participant "Connect4BoardClientProxy" as BoardClientProxy
+participant "Connect4BoardServerProxy" as BoardServerProxy
+participant "Connect4PlayerClientProxy" as PlayerClientProxy
+participant "Connect4Board" as Board
+
+Player -> BoardClientProxy: joinGame(connect4Player);
+BoardClientProxy -> BoardServerProxy: joinGame();
+BoardServerProxy --> BoardClientProxy: getPlayerId();
+BoardClientProxy -> BoardServerProxy: sendPlayerId(connect4Player.getPlayerId());
+
+alt if playerId unknown
+    group create new Connect4PlayerProxy
+        BoardClientProxy --> BoardServerProxy: sendIp(); sendPort();
+        BoardServerProxy -> BoardClientProxy: new Socket(IP, PORT);
+        BoardClientProxy --> BoardServerProxy: serverSocket.accept();
+        BoardClientProxy -> PlayerServerProxy: new Connect4PlayerServerProxy(clientSocket);
+        BoardServerProxy -> PlayerClientProxy: new Connect4PlayerClientProxy(socket);
+    end
+end
+
+BoardServerProxy -> Board: joinGame(Connect4PlayerClientProxy);
+
+alt if game full or player already joined
+    Board --> BoardServerProxy: false;
+    BoardServerProxy --> BoardClientProxy: false;
+    BoardClientProxy --> Player: false;
+else
+    Board --> PlayerClientProxy: setPlayerChar(availablePlayerChar);
+    PlayerClientProxy --> PlayerServerProxy: setPlayerChar(availablePlayerChar);
+    PlayerServerProxy -> Player: setPlayerChar(availablePlayerChar);
+
+    group for all players
+        Board --> PlayerClientProxy: receiveOpponents(opponents);
+        PlayerClientProxy --> PlayerServerProxy: receiveOpponents(opponents);
+        PlayerServerProxy --> Player: receiveOpponents(opponents);
+
+        Board --> PlayerClientProxy: receiveBoardState(boardState);
+        PlayerClientProxy --> PlayerServerProxy: receiveBoardState(boardState);
+        PlayerServerProxy --> Player: receiveBoardState(boardState);
+    end
+
+    Board --> BoardServerProxy: true;
+    BoardServerProxy --> BoardClientProxy: true;
+    BoardClientProxy --> Player: true;
+end
+
+@enduml
