@@ -293,7 +293,7 @@ public class Connect4Board implements IConnect4Board {
     }
 
     private int getAvailableRow(int column) {
-        if (column >= connect4Board.length) {
+        if (column >= connect4Board[0].length) {
             // Return -1 if the column is out of bounds
             return -1;
         }
