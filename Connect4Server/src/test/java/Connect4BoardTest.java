@@ -1,6 +1,5 @@
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.doNothing;
-import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.*;
 
 import de.hsw.*;
 import org.junit.Before;
@@ -16,15 +15,16 @@ public class Connect4BoardTest {
     private IConnect4Player player3;
 
     @Before
-    public void setUp() {
+    public void setUp() throws IOException {
         connect4Board = new Connect4Board();
 
-        Connect4PlayerUIController mockController = mock(Connect4PlayerUIController.class);
-        doNothing().when(mockController);
+        player1 = mock(IConnect4Player.class);
+        player2 = mock(IConnect4Player.class);
+        player3 = mock(IConnect4Player.class);
 
-        player1 = new Connect4Player(mockController, "Player 1");
-        player2 = new Connect4Player(mockController, "Player 2");
-        player3 = new Connect4Player(mockController, "Player 3");
+        when(player1.getPlayerChar()).thenReturn('X');
+        when(player2.getPlayerChar()).thenReturn('O');
+        when(player3.getPlayerChar()).thenReturn(' ');
     }
 
     @Test
