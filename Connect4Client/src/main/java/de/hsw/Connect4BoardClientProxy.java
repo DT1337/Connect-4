@@ -23,18 +23,18 @@ public class Connect4BoardClientProxy implements IConnect4Board {
     // Option 0 - End Connection
     public void endConnection() throws IOException {
         selectOption(0);
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Closing connection.
+        reader.readString(); // [SERVER][INFO]: Closing connection.
     }
 
     // Option 1 - Join Game
     @Override
     public boolean joinGame(IConnect4Player joiningConnect4Player) throws IOException {
         selectOption(1);
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Joining the game.
+        reader.readString(); // [SERVER][INFO]: Joining the game.
 
         sendConnect4Player(joiningConnect4Player);
 
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Sending join status.
+        reader.readString(); // [SERVER][INFO]: Sending join status.
         return reader.readBoolean();
     }
 
@@ -42,11 +42,11 @@ public class Connect4BoardClientProxy implements IConnect4Board {
     @Override
     public boolean leaveGame(IConnect4Player leavingConnect4Player) throws IOException {
         selectOption(2);
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Leaving the game.
+        reader.readString(); // [SERVER][INFO]: Leaving the game.
 
         sendConnect4Player(leavingConnect4Player);
 
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Sending leave status.
+        reader.readString(); // [SERVER][INFO]: Sending leave status.
         return reader.readBoolean();
     }
 
@@ -54,7 +54,7 @@ public class Connect4BoardClientProxy implements IConnect4Board {
     @Override
     public char[][] getBoardState() throws IOException {
         selectOption(3);
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Sending the board state.
+        reader.readString(); // [SERVER][INFO]: Sending the board state.
         return reader.readCharArray();
     }
 
@@ -65,10 +65,10 @@ public class Connect4BoardClientProxy implements IConnect4Board {
 
         sendConnect4Player(playingConnect4Player);
 
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Please select a column.
+        reader.readString(); // [SERVER][INFO]: Please select a column.
         writer.writeInt(column);
 
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Sending move status.
+        reader.readString(); // [SERVER][INFO]: Sending move status.
         return reader.readBoolean();
     }
 
@@ -76,7 +76,7 @@ public class Connect4BoardClientProxy implements IConnect4Board {
     @Override
     public boolean isGameOver() throws IOException {
         selectOption(5);
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Checking for game over.
+        reader.readString(); // [SERVER][INFO]: Checking for game over.
         return reader.readBoolean();
     }
 
@@ -84,14 +84,14 @@ public class Connect4BoardClientProxy implements IConnect4Board {
     @Override
     public char getWinner() throws IOException {
         selectOption(6);
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Sending winning char.
+        reader.readString(); // [SERVER][INFO]: Sending winning char.
         return reader.readChar();
     }
 
     // Option 7 - Get Winning Pieces
     public int[][] getWinningPieces() throws IOException, ClassNotFoundException {
         selectOption(7);
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Sending winning pieces.
+        reader.readString(); // [SERVER][INFO]: Sending winning pieces.
         return (int[][]) reader.readObject();
     }
 
@@ -99,16 +99,16 @@ public class Connect4BoardClientProxy implements IConnect4Board {
     @Override
     public boolean resetBoard(IConnect4Player playingConnect4Player) throws IOException {
         selectOption(8);
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Resetting the board.
+        reader.readString(); // [SERVER][INFO]: Resetting the board.
 
         sendConnect4Player(playingConnect4Player);
 
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Sending reset status.
+        reader.readString(); // [SERVER][INFO]: Sending reset status.
         return reader.readBoolean();
     }
 
     private void sendConnect4Player(IConnect4Player playingConnect4Player) throws IOException {
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: Please provide your player id.
+        reader.readString(); // [SERVER][INFO]: Please provide your player id.
         writer.writeString(playingConnect4Player.getPlayerId());
 
         String playerId = connect4Players.get(playingConnect4Player);
@@ -117,7 +117,7 @@ public class Connect4BoardClientProxy implements IConnect4Board {
             connect4Players.put(playingConnect4Player, playingConnect4Player.getPlayerId());
 
             try (ServerSocket serverSocket = new ServerSocket(0)) {
-                reader.readString(); // 0 | [SERVER - PROTOCOL]: Player unknown. Please provide your IP and PORT.
+                reader.readString(); // [SERVER][INFO]: Player unknown. Please provide your IP and PORT.
                 writer.writeString(InetAddress.getLocalHost().getHostAddress());    // IP
                 writer.writeInt(serverSocket.getLocalPort());                       // PORT
 
@@ -133,7 +133,7 @@ public class Connect4BoardClientProxy implements IConnect4Board {
     }
 
     private void selectOption(int option) throws IOException {
-        reader.readString(); // 0 | [SERVER - PROTOCOL]: 1. Join Game ; 2. Leave Game ; 3. Get Board State ; 4. Make Move ; 5. Is Game Over ; 6. Get Winner ; 7. Get Winning Pieces ; 8. Reset Board ; (Tech.: 0. End Connection)
+        reader.readString(); // [SERVER][PROTOCOL]: 1. Join Game ; 2. Leave Game ; 3. Get Board State ; 4. Make Move ; 5. Is Game Over ; 6. Get Winner ; 7. Get Winning Pieces ; 8. Reset Board ; (Tech.: 0. End Connection)
         writer.writeInt(option);
     }
 }

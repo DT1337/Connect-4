@@ -66,7 +66,7 @@ public class RpcWriter extends BufferedWriter {
     }
 
     private <T> void flushStream(T value) throws IOException {
-        System.out.println("[CLIENT - WRITING]: " + value);
+        System.out.printf("[%d][CLIENT - WRITING]: %s\n", Thread.currentThread().getId(), value);
 
         if (value instanceof char[][] charArray) {
             StringBuilder boardString = new StringBuilder();

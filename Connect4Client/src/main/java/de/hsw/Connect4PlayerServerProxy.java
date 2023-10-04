@@ -12,6 +12,18 @@ public class Connect4PlayerServerProxy implements Runnable {
     private final RpcReader reader;
     private final RpcWriter writer;
 
+    private final String PROTOCOL = "" +
+            "1. Get Player ID ; " +
+            "2. Get Player Name ; " +
+            "3. Set Player Char ; " +
+            "4. Get Player Char ; " +
+            "5. Make Move ; " +
+            "6. Receive Board State ; " +
+            "7. Receive Opponents ; " +
+            "8. Game Result ; " +
+            "(Tech.: 0. End Connection)";
+    private final String PROTOCOL_MESSAGE_TEMPLATE = "[CLIENT][%s]: %s";
+
     public Connect4PlayerServerProxy(Socket socket, IConnect4Player connect4Player) throws IOException {
         this.socket = socket;
         this.connect4Player = connect4Player;
@@ -21,11 +33,12 @@ public class Connect4PlayerServerProxy implements Runnable {
 
     @Override
     public void run() {
+        long threadId = Thread.currentThread().getId();
         try {
-            System.err.printf("[CLIENT]: Connection to %s:%d opened successfully.\n", socket.getInetAddress().getHostAddress(), socket.getPort());
+            System.err.printf("[%d][CLIENT]: Connection to %s:%d opened successfully.\n", threadId, socket.getInetAddress().getHostAddress(), socket.getPort());
 
             while (!socket.isClosed()) {
-                writer.writeString("0 | [CLIENT - PROTOCOL]: 1. Get Player ID ; 2. Get Player Name ; 3. Set Player Char ; 4. Get Player Char ; 5. Make Move ; 6. Receive Board State ; 7. Receive Opponents ; 8. Game Result ; (Tech.: 0. End Connection)");
+                writer.writeString(generateProtocolMessage("PROTOCOL", PROTOCOL));
                 int option = reader.readInt();
 
                 switch (option) {
@@ -38,44 +51,44 @@ public class Connect4PlayerServerProxy implements Runnable {
                     case 6 -> receiveBoardState();
                     case 7 -> receiveOpponents();
                     case 8 -> gameResult();
-                    default -> writer.writeString("99 | [CLIENT - PROTOCOL - ERROR]: Invalid option: " + option);
+                    default -> writer.writeString(generateProtocolMessage("ERROR", "Invalid option: " + option));
                 }
             }
 
-            System.err.printf("[CLIENT]: Connection to %s:%d closed successfully.\n", socket.getInetAddress().getHostAddress(), socket.getPort());
+            System.err.printf("[%d][CLIENT]: Connection to %s:%d closed successfully.\n", threadId, socket.getInetAddress().getHostAddress(), socket.getPort());
         } catch (IOException e) {
-            System.err.println("[CLIENT]: An error occurred: " + e.getMessage());
+            System.err.println(generateProtocolMessage("ERROR", "An error occurred: " + e.getMessage()));
         }
     }
 
     // Option 0 - End Connection
     private void endConnection() throws IOException {
-        writer.writeString("0 | [CLIENT - PROTOCOL]: Closing connection.");
+        writer.writeString(generateProtocolMessage("INFO", "Closing connection."));
         socket.close();
     }
 
     // Option 1 - Get Player ID
     private void getPlayerId() throws IOException {
-        writer.writeString("0 | [CLIENT - PROTOCOL]: Sending player id.");
+        writer.writeString(generateProtocolMessage("INFO", "Sending player id."));
         writer.writeString(connect4Player.getPlayerId());
     }
 
     // Option 2 - Get Name
     private void getPlayerName() throws IOException {
-        writer.writeString("0 | [CLIENT - PROTOCOL]: Sending player name.");
+        writer.writeString(generateProtocolMessage("INFO", "Sending player name."));
         writer.writeString(connect4Player.getPlayerName());
     }
 
     // Option 3 - Set Player Char
     private void setPlayerChar() throws IOException {
-        writer.writeString("0 | [CLIENT - PROTOCOL]: Please provide the player char.");
+        writer.writeString(generateProtocolMessage("INFO", "Please provide the player char."));
         char playerChar = reader.readChar();
         connect4Player.setPlayerChar(playerChar);
     }
 
     // Option 4 - Get Player Char
     private void getPlayerChar() throws IOException {
-        writer.writeString("0 | [CLIENT - PROTOCOL]: Sending player char.");
+        writer.writeString(generateProtocolMessage("INFO", "Sending player char."));
         writer.writeChar(connect4Player.getPlayerChar());
     }
 
@@ -86,22 +99,26 @@ public class Connect4PlayerServerProxy implements Runnable {
 
     // Option 6 - Receive Board State
     private void receiveBoardState() throws IOException {
-        writer.writeString("0 | [CLIENT - PROTOCOL]: Please provide the board state.");
+        writer.writeString(generateProtocolMessage("INFO", "Please provide the board state."));
         char[][] boardState = reader.readCharArray();
         connect4Player.receiveBoardState(boardState);
     }
 
     // Option 7 - Receive Opponents
     private void receiveOpponents() throws IOException {
-        writer.writeString("0 | [CLIENT - PROTOCOL]: Please provide the opponents list.");
+        writer.writeString(generateProtocolMessage("INFO", "Please provide the opponents list."));
         String[] opponents = reader.readStringArray();
         connect4Player.receiveOpponents(opponents);
     }
 
     // Option 8 - Game Result
     private void gameResult() throws IOException {
-        writer.writeString("0 | [CLIENT - PROTOCOL]: Please provide the game result.");
+        writer.writeString(generateProtocolMessage("INFO", "Please provide the game result."));
         char gameResult = reader.readChar();
         connect4Player.gameResult(gameResult);
+    }
+
+    private String generateProtocolMessage(String status, String message) {
+        return String.format(PROTOCOL_MESSAGE_TEMPLATE, status, message);
     }
 }

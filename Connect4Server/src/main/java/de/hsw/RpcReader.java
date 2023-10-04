@@ -79,7 +79,7 @@ public class RpcReader extends BufferedReader {
     }
 
     public <T> T returnValue(T value) {
-        System.out.println("[SERVER - READING]: " + value);
+        System.out.printf("[%d][SERVER - READING]: %s\n", Thread.currentThread().getId(), value);
 
         if (value instanceof char[][] charArray) {
             StringBuilder boardString = new StringBuilder();
