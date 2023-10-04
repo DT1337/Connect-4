@@ -71,11 +71,17 @@ public class Connect4BoardTest {
 
         assertTrue(connect4Board.makeMove(0, player1));
         char[][] boardState = connect4Board.getBoardState();
-        assertEquals(player1.getPlayerChar(), boardState[5][0]);
+        assertEquals(player1.getPlayerChar(), boardState[5][0]); // Valid move
 
         assertTrue(connect4Board.makeMove(0, player2));
         boardState = connect4Board.getBoardState();
-        assertEquals(player2.getPlayerChar(), boardState[4][0]);
+        assertEquals(player2.getPlayerChar(), boardState[4][0]); // Valid move
+
+        for (int i=0; i<3; i++) {
+            connect4Board.makeMove(2, player1);
+            connect4Board.makeMove(2, player2);
+        }
+        assertFalse(connect4Board.makeMove(2, player1)); // Invalid move, column full
 
         assertFalse(connect4Board.makeMove(69, player1)); // Invalid move, column out of range
         assertFalse(connect4Board.makeMove(0, null)); // Invalid move, player is null
