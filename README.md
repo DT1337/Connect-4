@@ -1,16 +1,30 @@
 # Connect 4
 
-**Connect 4 Distributed System** is an implementation of the classic Connect 4 game with a JavaFX frontend for the client. This distributed system is built on a server-client architecture where the server manages the game board, and clients communicate with the server via sockets.
+**Connect 4** is an implementation of the classic Connect 4 game with a JavaFX frontend for the client.  
+This distributed system is built on a server-client architecture where the server manages the game board,  
+and clients communicate with the server via sockets.
 
 ![image](https://github.com/DT1337/Connect-4/assets/92855706/b68c984d-72f2-49fa-bb40-a125e422d9ee)
 
+***
+### Start Playing Right Away
+
+Download the following files and run them via:
+
+```bash
+java -jar <jar_name>
+```
+
+**Client**: [Connect4Client.jar](https://github.com/DT1337/Connect-4/blob/main/Executables/Connect4Client.jar)  
+**Server**: [Connect4Server.jar](https://github.com/DT1337/Connect-4/blob/main/Executables/Connect4Server.jar)
+***
 ## Table of Contents
 
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
   - [Client](#client)
     - [Running the Client with Maven](#running-the-client-with-maven)
-    - [Running the Client JAR](#running-the-client-jar-requires-javafx-runtime)
+    - [Running the Client JAR](#running-the-client-jar)
   - [Server](#server)
     - [Running the Server JAR](#running-the-server-jar)
 
@@ -20,7 +34,7 @@ Before you can run the Connect 4 application, you need to have the following sof
 
 - Java Development Kit (JDK) 17 or later
 - Apache Maven 3.9.4 or later
-- optional: JavaFX Runtime when running the Client JAR
+- optional: JavaFX Runtime
 
 ## Usage
 
@@ -38,7 +52,7 @@ git clone https://github.com/DT1337/Connect-4 && cd Connect-4
 cd Connect4Client && mvn clean javafx:run
 ```
 
-#### Running the Client JAR (requires JavaFX Runtime)
+#### Running the Client JAR
 
 1. Build the JAR using Maven:
 
