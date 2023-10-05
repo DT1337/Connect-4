@@ -11,7 +11,7 @@
         <java.version>17</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
-        <jar.main>de.hsw.Connect4Client</jar.main>
+        <jar.main>de.hsw.MainWrapper</jar.main>
     </properties>
 
     <dependencies>

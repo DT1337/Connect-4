@@ -1,7 +1,8 @@
+package de.hsw;
+
 import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
-import de.hsw.*;
 import org.junit.Before;
 import org.junit.Test;
 

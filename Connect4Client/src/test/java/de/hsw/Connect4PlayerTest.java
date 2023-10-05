@@ -1,7 +1,7 @@
+package de.hsw;
+
 import static org.junit.Assert.*;
 
-import de.hsw.Connect4Player;
-import de.hsw.Connect4PlayerUIController;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mockito;
