@@ -4,7 +4,7 @@
 This distributed system is built on a server-client architecture where the server manages the game board,  
 and clients communicate with the server via sockets.
 
-![image](https://github.com/DT1337/Connect-4/assets/92855706/b68c984d-72f2-49fa-bb40-a125e422d9ee)
+![image](https://github.com/DT1337/Connect-4/blob/960a153207bd4e27734a5d23ef687dd684dcfb60/Connect4Client/src/main/resources/de/hsw/images/preview.png)
 
 ***
 ### Start Playing Right Away
