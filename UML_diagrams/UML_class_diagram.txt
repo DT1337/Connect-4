@@ -1,11 +1,11 @@
 @startuml
 
-class Connect4Client implements Application {
+class Connect4Client extends Application {
     +start(stage: Stage) : void
     +main(args: String[]) : void
 }
 
-Connect4Client --> Connect4PlayerUIController
+Connect4Client -- Connect4PlayerUIController
 
 interface IConnect4Player {
     +getPlayerId() : String
@@ -34,7 +34,7 @@ class Connect4Player implements IConnect4Player {
     +gameResult(winnerChar: char) : void
 }
 
-Connect4Player --> Connect4PlayerUIController
+Connect4Player -- Connect4PlayerUIController
 
 class Connect4PlayerServerProxy implements Runnable {
     -socket: Socket
@@ -54,8 +54,8 @@ class Connect4PlayerServerProxy implements Runnable {
     -gameResult() : void
 }
 
-Connect4PlayerServerProxy --> RpcReader
-Connect4PlayerServerProxy --> RpcWriter
+Connect4PlayerServerProxy -- RpcReader
+Connect4PlayerServerProxy -- RpcWriter
 
 class Connect4BoardClientProxy implements IConnect4Board {
     -reader: RpcReader
@@ -75,8 +75,8 @@ class Connect4BoardClientProxy implements IConnect4Board {
     -selectOption(option: int) : void
 }
 
-Connect4BoardClientProxy --> RpcReader
-Connect4BoardClientProxy --> RpcWriter
+Connect4BoardClientProxy -- RpcReader
+Connect4BoardClientProxy -- RpcWriter
 
 class Connect4PlayerUIController {
     +setStage(stage: Stage) : void
@@ -96,6 +96,8 @@ class Connect4Server {
     + startServer(Connect4Board connect4Board): void
     + main(String[] args): void
 }
+
+Connect4Server -- Connect4Board
 
 interface IConnect4Board {
     +joinGame(joiningConnect4Player: IConnect4Player) : boolean
@@ -155,8 +157,8 @@ class Connect4BoardServerProxy implements Runnable {
     - getConnect4Player(): IConnect4Player
 }
 
-Connect4BoardServerProxy --> RpcReader
-Connect4BoardServerProxy --> RpcWriter
+Connect4BoardServerProxy -- RpcReader
+Connect4BoardServerProxy -- RpcWriter
 
 class Connect4PlayerClientProxy implements IConnect4Player {
     - RpcReader reader
@@ -174,28 +176,28 @@ class Connect4PlayerClientProxy implements IConnect4Player {
     - selectOption(int option): void
 }
 
-Connect4PlayerClientProxy --> RpcReader
-Connect4PlayerClientProxy --> RpcWriter
+Connect4PlayerClientProxy -- RpcReader
+Connect4PlayerClientProxy -- RpcWriter
 
 
-class RpcReader {
-    +readString() : String
-    +readChar(): char
-    +readInt() : int
-    +readBoolean() : boolean
-    +readStringArray(): String[]
-    +readCharArray() : char[][]
-    +readObject() : Object
+class RpcReader extends BufferedReader {
+    + readString() : String
+    + readChar(): char
+    + readInt() : int
+    + readBoolean() : boolean
+    + readStringArray(): String[]
+    + readCharArray() : char[][]
+    + readObject() : Object
 }
 
-class RpcWriter {
-    +writeString(data: String) : void
-    +writeChar(data: char): void
-    +writeInt(data: int) : void
-    +writeBoolean(data: boolean) : void
-    +writeStringArray(data: String[]): void
-    +writeCharArray(data: char[][]) : void
-    +writeObject(data: Object) : void
+class RpcWriter extends BufferedWriter {
+    + writeString(data: String) : void
+    + writeChar(data: char): void
+    + writeInt(data: int) : void
+    + writeBoolean(data: boolean) : void
+    + writeStringArray(data: String[]): void
+    + writeCharArray(data: char[][]) : void
+    + writeObject(data: Object) : void
 }
 
 @enduml

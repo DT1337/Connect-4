@@ -1,0 +1,23 @@
+@startuml
+participant "Connect4Board" as Board
+participant "Connect4PlayerClientProxy" as PlayerClientProxy
+participant "RpcWriter" as Writer
+participant "RpcReader" as Reader
+participant "Connect4PlayerServerProxy" as PlayerServerProxy
+participant "Connect4Player" as Player
+participant "Connect4PlayerUIController" as PlayerUIController
+
+Board -> PlayerClientProxy: receiveBoardState(connect4Board);
+PlayerClientProxy -> Writer: writeInt(option);
+Writer -> Reader: writeInt(option);
+Reader -> PlayerServerProxy: readInt(option);
+PlayerServerProxy --> Writer: writeString("[CLIENT][INFO]: Please provide the board state.");
+Writer --> Reader: writeString("[CLIENT][INFO]: Please provide the board state.");
+Reader --> PlayerClientProxy: readString("[CLIENT][INFO]: Please provide the board state.");
+PlayerClientProxy -> Writer: writeCharArray(boardState);
+Writer -> Reader: writeCharArray(boardState);
+Reader -> PlayerServerProxy: readCharArray(boardState);
+PlayerServerProxy -> Player: receiveBoardState(boardState);
+Player -> PlayerUIController: updateBoardState(boardState);
+
+@enduml

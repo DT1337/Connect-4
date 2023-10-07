@@ -1,0 +1,29 @@
+@startuml
+
+package client {
+    interface IConnect4Player {}
+    class Connect4Player implements IConnect4Player {}
+    class Connect4PlayerServerProxy {}
+    class Connect4BoardClientProxy {}
+
+    Connect4PlayerServerProxy <-- Connect4Player
+    Connect4BoardClientProxy --> Connect4Player
+}
+
+package server {
+    interface IConnect4Board {}
+    class Connect4Board implements IConnect4Board {}
+    class Connect4PlayerClientProxy {}
+    class Connect4BoardServerProxy {}
+
+    Connect4BoardServerProxy <-- Connect4Board
+    Connect4PlayerClientProxy --> Connect4Board
+}
+
+Connect4BoardClientProxy ..|> IConnect4Board
+Connect4PlayerClientProxy ..|> IConnect4Player
+
+Connect4BoardServerProxy --> Connect4BoardClientProxy
+Connect4PlayerServerProxy --> Connect4PlayerClientProxy
+
+@enduml
