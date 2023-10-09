@@ -15,7 +15,7 @@ Download the following files and run them via:
 java -jar <jar_name>
 ```
 
-**Client**: [Connect4Client.jar](https://github.com/DT1337/Connect-4/blob/main/Executables/Connect4Client.jar)  
+**Client**: [Connect4Client_WINDOWS.jar](https://github.com/DT1337/Connect-4/blob/main/Executables/Connect4Client-WINDOWS.jar) or [Connect4Client_MACOS.jar](https://github.com/DT1337/Connect-4/blob/main/Executables/Connect4Client-MACOS.jar)  
 **Server**: [Connect4Server.jar](https://github.com/DT1337/Connect-4/blob/main/Executables/Connect4Server.jar)
 ***
 ## Table of Contents
