@@ -1,6 +1,6 @@
 # Connect 4
 
-**Connect 4** is an implementation of the classic Connect 4 game with a JavaFX frontend for the client.  
+**Connect-4** is an implementation of the classic [Connect 4](https://www.wikihow.com/Play-Connect-4) game with a JavaFX frontend for the client.  
 This distributed system is built on a server-client architecture where the server manages the game board,  
 and clients communicate with the server via sockets.
 
