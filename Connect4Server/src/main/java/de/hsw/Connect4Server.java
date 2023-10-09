@@ -33,7 +33,7 @@ public class Connect4Server {
         ServerSocket serverSocket = new ServerSocket(7171);
 
         System.out.println("[SERVER]: Server started successfully.");
-        System.err.printf("[SERVER]: Listening on %s:%d\n", InetAddress.getLocalHost().getHostAddress(), serverSocket.getLocalPort());
+        System.err.printf("[SERVER]: Listening on %s:%d\n", Utility.getLocalIpAddress(), serverSocket.getLocalPort());
 
         Connect4Server connect4Server = new Connect4Server(serverSocket);
 

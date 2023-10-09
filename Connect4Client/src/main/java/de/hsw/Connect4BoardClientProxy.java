@@ -118,8 +118,8 @@ public class Connect4BoardClientProxy implements IConnect4Board {
 
             try (ServerSocket serverSocket = new ServerSocket(0)) {
                 reader.readString(); // [SERVER][INFO]: Player unknown. Please provide your IP and PORT.
-                writer.writeString(InetAddress.getLocalHost().getHostAddress());    // IP
-                writer.writeInt(serverSocket.getLocalPort());                       // PORT
+                writer.writeString(Utility.getLocalIpAddress());    // IP
+                writer.writeInt(serverSocket.getLocalPort());       // PORT
 
                 Socket clientSocket = serverSocket.accept();
 

@@ -4,6 +4,7 @@ participant "Connect4BoardClientProxy" as BoardClientProxy
 participant "Connect4BoardServerProxy" as BoardServerProxy
 participant "Connect4Server" as Server
 
+Server -> Server: new ServerSocket(IP, PORT);
 Client -> Server: new Socket(IP, PORT);
 Server --> Client: serverSocket.accept();
 Server -> BoardServerProxy: new Connect4BoardServerProxy(clientSocket);
